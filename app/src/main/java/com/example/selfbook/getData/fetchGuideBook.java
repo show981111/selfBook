@@ -1,4 +1,4 @@
-package com.example.selfbook;
+package com.example.selfbook.getData;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -7,7 +7,8 @@ import android.util.Log;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.selfbook.recyclerView.guideBookAdapter;
+import com.example.selfbook.Data.templateInfo;
+import com.example.selfbook.recyclerView.bookCoverAdapter;
 import com.google.gson.Gson;
 
 import java.io.IOException;
@@ -20,7 +21,7 @@ import okhttp3.Response;
 public class fetchGuideBook extends AsyncTask<String, Void, templateInfo[]> {
 
     private Context context;
-    private guideBookAdapter guideBookAdapter;
+    private bookCoverAdapter<templateInfo> guideBookAdapter;
     private RecyclerView rv_guideBook;
 
     private ArrayList<templateInfo> templateInfoArrayList = new ArrayList<>();
@@ -62,9 +63,10 @@ public class fetchGuideBook extends AsyncTask<String, Void, templateInfo[]> {
         for(templateInfo template : templateInfos)
         {
             templateInfoArrayList.add(template);
+            Log.d("fetchGuideBook", String.valueOf(template.getBookPrice()));
         }
 
-        guideBookAdapter = new guideBookAdapter(context, templateInfoArrayList);
+        guideBookAdapter = new bookCoverAdapter<templateInfo>(context, templateInfoArrayList);
         rv_guideBook.setLayoutManager(new LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false));
         rv_guideBook.setAdapter(guideBookAdapter);
     }

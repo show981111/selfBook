@@ -1,12 +1,13 @@
-package com.example.selfbook;
+package com.example.selfbook.Data;
 
-public class templateInfo {
+public class templateInfo implements viewBook{
 
     private int bookPrice;
     private int templateCode;
     private String author;
     private String templateName;
     private String madeDate;
+    //private String imageURL;
 
 
     public templateInfo(int bookPrice, int templateCode, String author, String templateName, String madeDate) {
