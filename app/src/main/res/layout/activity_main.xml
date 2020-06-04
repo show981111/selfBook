@@ -26,7 +26,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:text="가이드북"
-                android:textSize="20dp"
+                android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
@@ -40,7 +40,7 @@
                 android:layout_marginTop="15dp"
                 android:layout_marginRight="10dp"
                 android:text="더보기 >"
-                android:textSize="15dp"
+                android:textSize="15sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
@@ -74,7 +74,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:text="내 원고"
-               android:textSize="20dp"
+                android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
@@ -88,7 +88,7 @@
                 android:layout_marginTop="15dp"
                 android:layout_marginRight="10dp"
                 android:text="더보기 >"
-                android:textSize="15dp"
+                android:textSize="15sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
@@ -96,12 +96,27 @@
 
         </RelativeLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id= "@+id/rv_myDraft"
-            android:layout_marginTop="10dp">
-        </androidx.recyclerview.widget.RecyclerView>
+            android:layout_height="wrap_content">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id= "@+id/rv_myDraft"
+                android:layout_marginTop="10dp">
+            </androidx.recyclerview.widget.RecyclerView>
+
+            <TextView
+                android:id="@+id/tv_emptyMyDraft"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:text = "내가 구매한 원고가 없습니다."
+                android:textSize="20sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </RelativeLayout>
 
         <View
             android:layout_width="match_parent"

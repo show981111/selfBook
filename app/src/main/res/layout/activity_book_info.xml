@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".BookInfoActivity">
+
+    <!--        책 높이 길이에 따라 조정-->
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:id="@+id/iv_gideBook"
+                android:layout_width="80dp"
+                android:layout_height="100dp"
+                android:background="@color/colorPrimary"
+                />
+
+            <TextView
+                android:background="#42b9f5"
+                android:padding="3dp"
+                android:layout_alignBottom="@+id/iv_gideBook"
+                android:layout_alignRight="@+id/iv_gideBook"
+                android:layout_marginTop="3dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="50000"
+                android:textSize="20sp"
+                android:id = "@+id/tv_guideBookPrice"
+                />
+            <TextView
+                android:id="@+id/tv_templateTitle"
+                android:layout_marginTop="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text = "selfBook For Senior"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/iv_gideBook"
+                android:textSize="20sp"
+                />
+            <TextView
+                android:id="@+id/tv_authorIndicator"
+                android:layout_marginTop="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text = "글쓴이 : "
+                android:layout_toRightOf="@+id/iv_gideBook"
+                android:layout_below="@+id/tv_templateTitle"
+                android:textSize="20sp"
+                />
+            <TextView
+                android:id="@+id/tv_authorName"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text = "홍 길 동"
+                android:layout_below="@+id/tv_templateTitle"
+                android:layout_toRightOf="@+id/tv_authorIndicator"
+                android:textSize="20sp"
+                />
+
+            <TextView
+                android:id="@+id/tv_madeDateIndicator"
+                android:layout_marginTop="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/iv_gideBook"
+                android:text="출판일 : "
+                android:textSize="20sp"
+                android:layout_below="@+id/tv_authorIndicator"
+                />
+
+            <TextView
+                android:id="@+id/tv_madeDate"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text = "2020-06-04"
+                android:layout_below="@+id/tv_authorName"
+                android:layout_toRightOf="@+id/tv_authorIndicator"
+                android:textSize="20sp"
+                />
+
+            <CheckBox
+                android:id="@+id/cb_bookMark"
+                android:button="@drawable/checkbox_bookmark"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/tv_templateTitle"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <Button
+                android:id="@+id/bt_purchase"
+                android:layout_marginRight="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text = "구매하기"
+                android:textColor="#ffffff"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:background="@drawable/background_purchase"
+                />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:id = "@+id/bottom_navigation"
+        app:itemBackground="@color/colorPrimary"
+        app:itemTextColor="@drawable/selector"
+        app:itemIconTint="@drawable/selector"
+        app:menu="@menu/menu_navigation"
+        >
+    </com.google.android.material.bottomnavigation.BottomNavigationView>
+
+</RelativeLayout>

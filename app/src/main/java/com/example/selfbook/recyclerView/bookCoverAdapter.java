@@ -1,13 +1,18 @@
 package com.example.selfbook.recyclerView;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Parcelable;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.selfbook.BookInfoActivity;
 import com.example.selfbook.Data.templateInfo;
 import com.example.selfbook.Data.userInfo;
 import com.example.selfbook.Data.viewBook;
@@ -22,6 +27,7 @@ public class bookCoverAdapter<T extends viewBook> extends RecyclerView.Adapter<b
     private ArrayList<T> itemInfos;
 
     private ArrayList<templateInfo> templateInfos = new ArrayList<>();
+    private templateInfo templateItem;
     private ArrayList<userInfo> userPurchasesArrayList = new ArrayList<>();
     public bookCoverAdapter(Context context, ArrayList<T> itemInfos) {
         mContext = context;
@@ -45,19 +51,37 @@ public class bookCoverAdapter<T extends viewBook> extends RecyclerView.Adapter<b
     }
 
     @Override
-    public void onBindViewHolder(@NonNull bookCoverViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull bookCoverViewHolder holder, final int position) {
         if(!itemInfos.isEmpty()) {
             if (itemInfos.get(0) instanceof templateInfo) {
                 templateInfos = (ArrayList<templateInfo>) itemInfos;
-                templateInfo templateItem = templateInfos.get(position);
+                templateItem = templateInfos.get(position);
                 Log.d("fetchGuideBookBind", String.valueOf(templateItem.getBookPrice()));
                 holder.bookDescription.setText(String.valueOf(templateItem.getBookPrice()) + "원");
+
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Log.d("onBind","clicked");
+                        Intent intent = new Intent(mContext, BookInfoActivity.class);
+                        intent.putExtra("templateInfo", templateInfos.get(position));
+                        mContext.startActivity(intent);
+                        //Toast.makeText(mContext, "TOUCHED"+String.valueOf(templateItem.getBookPrice()), Toast.LENGTH_LONG).show();
+                    }
+                });
+
             }
 
             if (itemInfos.get(0) instanceof userInfo) {
                 userPurchasesArrayList = (ArrayList<userInfo>) itemInfos;
                 userInfo userPurchaseItem = userPurchasesArrayList.get(position);
-                holder.bookDescription.setText(userPurchaseItem.getUserTemplateCode());
+                if(userPurchaseItem.getUserTemplateCode() == 0 )
+                {
+                    Log.d("login","mydraft");
+                    holder.itemView.setVisibility(View.GONE);
+                    return;
+                }
+                holder.bookDescription.setText(String.valueOf(userPurchaseItem.getUserTemplateCode()));
                 //holder.bookDescription.setText(userPurchaseItem.getStatus());
             }
         }

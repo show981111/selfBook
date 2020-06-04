@@ -1,6 +1,9 @@
 package com.example.selfbook.Data;
 
-public class templateInfo implements viewBook{
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class templateInfo implements viewBook, Parcelable {
 
     private int bookPrice;
     private int templateCode;
@@ -17,6 +20,26 @@ public class templateInfo implements viewBook{
         this.templateName = templateName;
         this.madeDate =madeDate;
     }
+
+    protected templateInfo(Parcel in) {
+        bookPrice = in.readInt();
+        templateCode = in.readInt();
+        author = in.readString();
+        templateName = in.readString();
+        madeDate = in.readString();
+    }
+
+    public static final Creator<templateInfo> CREATOR = new Creator<templateInfo>() {
+        @Override
+        public templateInfo createFromParcel(Parcel in) {
+            return new templateInfo(in);
+        }
+
+        @Override
+        public templateInfo[] newArray(int size) {
+            return new templateInfo[size];
+        }
+    };
 
     public int getBookPrice() {
         return bookPrice;
@@ -56,5 +79,19 @@ public class templateInfo implements viewBook{
 
     public void setMadeDate(String madeDate) {
         this.madeDate = madeDate;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(bookPrice);
+        dest.writeInt(templateCode);
+        dest.writeString(author);
+        dest.writeString(templateName);
+        dest.writeString(madeDate);
     }
 }

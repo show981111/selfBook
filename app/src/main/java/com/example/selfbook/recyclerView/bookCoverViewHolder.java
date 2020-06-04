@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.selfbook.R;
 
-public class bookCoverViewHolder extends RecyclerView.ViewHolder {
+public class bookCoverViewHolder extends RecyclerView.ViewHolder{
 
     public ImageView bookImage;
     public TextView bookDescription;
@@ -18,5 +18,8 @@ public class bookCoverViewHolder extends RecyclerView.ViewHolder {
 
         bookImage = itemView.findViewById(R.id.iv_gideBook);
         bookDescription = itemView.findViewById(R.id.tv_guideBookPrice);
+
+
     }
+
 }

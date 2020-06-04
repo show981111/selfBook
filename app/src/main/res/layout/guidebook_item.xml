@@ -5,24 +5,34 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <ImageView
-        android:layout_marginTop="5dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:id="@+id/iv_gideBook"
-        android:layout_width="80dp"
-        android:layout_height="100dp"
-        android:background="@color/colorPrimary"
-        />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <TextView
-        android:layout_margin="5dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="50000"
-        android:textSize="20dp"
-        android:id = "@+id/tv_guideBookPrice"
-        />
+        <ImageView
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:id="@+id/iv_gideBook"
+            android:layout_width="80dp"
+            android:layout_height="100dp"
+            android:background="@color/colorPrimary"
+            />
+
+        <TextView
+            android:background="#42b9f5"
+            android:padding="3dp"
+            android:layout_alignBottom="@+id/iv_gideBook"
+            android:layout_alignRight="@+id/iv_gideBook"
+            android:layout_marginTop="3dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="50000"
+            android:textSize="20sp"
+            android:id = "@+id/tv_guideBookPrice"
+            />
+
+    </RelativeLayout>
 
 </LinearLayout>
