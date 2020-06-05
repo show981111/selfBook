@@ -6,4 +6,5 @@ public class Api {
     public static final String GET_TEMPLATEINFO = BASE_URL + "/getTemplateInfo.php";
     public static final String POST_REGISTER = BASE_URL + "/registerUser.php";
     public static final String GET_USERINFO = BASE_URL + "/getUserInfo.php";
+    public static final String POST_SETUSERPURCHASE = BASE_URL + "/setUserPurchase.php";
 }

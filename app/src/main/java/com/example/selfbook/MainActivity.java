@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -23,6 +24,8 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static String userID = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +39,10 @@ public class MainActivity extends AppCompatActivity {
         TextView emptyMyDraft = findViewById(R.id.tv_emptyMyDraft);
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+
+        if(userID != null && !userID.equals("")){
+            bottomNavigationView.getMenu().findItem(R.id.login).setTitle(userID);
+        }
 
         //login Selected
         bottomNavigationView.setSelectedItemId(R.id.home);
@@ -60,6 +67,8 @@ public class MainActivity extends AppCompatActivity {
             userDataArrayList = intent.getParcelableArrayListExtra("userDataArrayList");
             if(userDataArrayList != null && userDataArrayList.size() > 0)
             {
+                userID = userDataArrayList.get(0).getUserID();
+                Log.d("Main",userID);
                 int checkEmptyMyDraft = 0;
                 for(userInfo userInfoItem : userDataArrayList)
                 {

@@ -2,12 +2,9 @@ package com.example.selfbook.recyclerView;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Parcelable;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -29,6 +26,7 @@ public class bookCoverAdapter<T extends viewBook> extends RecyclerView.Adapter<b
     private ArrayList<templateInfo> templateInfos = new ArrayList<>();
     private templateInfo templateItem;
     private ArrayList<userInfo> userPurchasesArrayList = new ArrayList<>();
+
     public bookCoverAdapter(Context context, ArrayList<T> itemInfos) {
         mContext = context;
         this.itemInfos = itemInfos;
