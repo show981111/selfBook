@@ -17,6 +17,7 @@ import com.example.selfbook.Data.templateInfo;
 import com.example.selfbook.Data.userInfo;
 import com.example.selfbook.api.Api;
 import com.example.selfbook.getData.fetchGuideBook;
+import com.example.selfbook.getData.fetchMyDraft;
 import com.example.selfbook.recyclerView.bookCoverAdapter;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -25,6 +26,7 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     public static String userID = "";
+    public static String userName = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
 
         if(userID != null && !userID.equals("")){
             bottomNavigationView.getMenu().findItem(R.id.login).setTitle(userID);
+            fetchMyDraft fetchMyDraft = new fetchMyDraft(userID, rv_myDraft,emptyMyDraft,this);
+            fetchMyDraft.execute(Api.GET_USERINFO);
         }
 
         //login Selected
@@ -52,10 +56,11 @@ public class MainActivity extends AppCompatActivity {
                 switch (menuItem.getItemId())
                 {
                     case R.id.login :
-                        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                        MainActivity.this.startActivity(intent);
-                        //돌아왓을때 나의 원고 리사이클러뷰 로딩해줄 필요가 있다
-                        break;
+                        if(userID == null || userID.equals("")) {
+                            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                            MainActivity.this.startActivity(intent);
+                            break;
+                        }
                 }
                 return false;
             }
@@ -68,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
             if(userDataArrayList != null && userDataArrayList.size() > 0)
             {
                 userID = userDataArrayList.get(0).getUserID();
+                userName = userDataArrayList.get(0).getUserName();
                 Log.d("Main",userID);
                 int checkEmptyMyDraft = 0;
                 for(userInfo userInfoItem : userDataArrayList)

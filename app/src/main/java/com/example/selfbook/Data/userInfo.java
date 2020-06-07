@@ -9,11 +9,15 @@ public class userInfo implements Parcelable, viewBook {
     public String userID;
     public String userName;
     public int userTemplateCode;
+    public String userBookName;
+    public String userBookPublishDate;
 
-    public userInfo(String userID, String userName, int userTemplateCode) {
+    public userInfo(String userID, String userName, int userTemplateCode, String userBookName, String userBookPublishDate) {
         this.userID = userID;
         this.userName = userName;
-        this.userTemplateCode=userTemplateCode;
+        this.userTemplateCode = userTemplateCode;
+        this.userBookName = userBookName;
+        this.userBookPublishDate = userBookPublishDate;
     }
 
 //    public String getStatus() {
@@ -36,6 +40,8 @@ public class userInfo implements Parcelable, viewBook {
         this.userID = in.readString();
         this.userName = in.readString();
         this.userTemplateCode = in.readInt();
+        this.userBookName = in.readString();
+        this.userBookPublishDate = in.readString();
     }
 
     public static final Creator<userInfo> CREATOR = new Creator<userInfo>() {
@@ -73,6 +79,22 @@ public class userInfo implements Parcelable, viewBook {
     public void setUserTemplateCode(int userTemplateCode) {
         this.userTemplateCode = userTemplateCode;
     }
+    public String getUserBookName() {
+        return userBookName;
+    }
+
+    public void setUserBookName(String userBookName) {
+        this.userBookName = userBookName;
+    }
+
+    public String getUserBookPublishDate() {
+        return userBookPublishDate;
+    }
+
+    public void setUserBookPublishDate(String userBookPublishDate) {
+        this.userBookPublishDate = userBookPublishDate;
+    }
+
 
     @Override
     public int describeContents() {
@@ -84,5 +106,7 @@ public class userInfo implements Parcelable, viewBook {
         dest.writeString(this.userID);
         dest.writeString(this.userName);
         dest.writeInt(this.userTemplateCode);
+        dest.writeString(this.userBookName);
+        dest.writeString(this.userBookPublishDate);
     }
 }

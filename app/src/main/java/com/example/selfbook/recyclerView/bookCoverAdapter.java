@@ -2,17 +2,21 @@ package com.example.selfbook.recyclerView;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.selfbook.BasicDraftInfoFragment;
 import com.example.selfbook.BookInfoActivity;
 import com.example.selfbook.Data.templateInfo;
 import com.example.selfbook.Data.userInfo;
 import com.example.selfbook.Data.viewBook;
+import com.example.selfbook.MyDraftActivity;
 import com.example.selfbook.R;
 
 import java.util.ArrayList;
@@ -80,6 +84,19 @@ public class bookCoverAdapter<T extends viewBook> extends RecyclerView.Adapter<b
                     return;
                 }
                 holder.bookDescription.setText(String.valueOf(userPurchaseItem.getUserTemplateCode()));
+
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Log.d("onBind","clicked");
+                        Intent intent = new Intent(mContext, MyDraftActivity.class);
+                        Log.d("login",userPurchasesArrayList.get(position).getUserBookName());
+                        intent.putExtra("userPurchaseInfo", userPurchasesArrayList.get(position));
+                        mContext.startActivity(intent);
+                        //여기서 TEMPLATECONTENT fetch 해줄것!
+                        //Toast.makeText(mContext, "TOUCHED"+String.valueOf(templateItem.getBookPrice()), Toast.LENGTH_LONG).show();
+                    }
+                });
                 //holder.bookDescription.setText(userPurchaseItem.getStatus());
             }
         }

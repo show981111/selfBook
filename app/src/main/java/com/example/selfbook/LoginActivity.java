@@ -40,7 +40,7 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fetchMyDraft fetchMyDraft = new fetchMyDraft(userID.getText().toString(),userPassword.getText().toString());
+                fetchMyDraft fetchMyDraft = new fetchMyDraft(userID.getText().toString(),userPassword.getText().toString(),LoginActivity.this);
                 fetchMyDraft.execute(Api.GET_USERINFO);
             }
         });

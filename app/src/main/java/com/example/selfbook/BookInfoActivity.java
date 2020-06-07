@@ -3,6 +3,9 @@ package com.example.selfbook;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -10,15 +13,13 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
-import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.selfbook.Data.templateInfo;
-import com.example.selfbook.Data.userInfo;
 import com.example.selfbook.api.Api;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.gson.Gson;
+import com.google.android.material.tabs.TabLayout;
 
 import java.io.IOException;
 
@@ -48,6 +49,20 @@ public class BookInfoActivity extends AppCompatActivity {
         TextView tv_authorName = findViewById(R.id.tv_authorName);
         TextView tv_madeDate = findViewById(R.id.tv_madeDate);
 
+
+        Fragment[] arrFragments = new Fragment[2];
+        arrFragments[0] = new TemplateIntroFragment();
+        arrFragments[1] = new PreviewFragment();
+        //일단 책소개와 미리보기만 만듬 저자소개는 필요가 없을듯 하다 글지?
+        TabLayout tl_bookIntro = findViewById(R.id.tl_bookIntro);
+
+        ViewPager vp_pager_bookInfo = findViewById(R.id.vp_pager_bookInfo);
+        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT, arrFragments, "bookInfo");
+        vp_pager_bookInfo.setAdapter(viewPagerAdapter);
+
+        tl_bookIntro.setupWithViewPager(vp_pager_bookInfo);
+
+
         tv_bookPrice.setText(String.valueOf(templateInfoItem.getBookPrice()));
         tv_templateTitle.setText(templateInfoItem.getTemplateName());
         tv_authorName.setText(templateInfoItem.getAuthor());
@@ -72,9 +87,11 @@ public class BookInfoActivity extends AppCompatActivity {
                         //돌아왓을때 나의 원고 리사이클러뷰 로딩해줄 필요가 있다
                         break;
                     case R.id.login :
-                        Intent intentLogin = new Intent(BookInfoActivity.this, LoginActivity.class);
-                        intentLogin.putExtra("from","login");
-                        BookInfoActivity.this.startActivity(intentLogin);
+                        if(userID == null || userID.equals("")) {
+                            Intent intentLogin = new Intent(BookInfoActivity.this, LoginActivity.class);
+                            intentLogin.putExtra("from", "login");
+                            BookInfoActivity.this.startActivity(intentLogin);
+                        }
                         //돌아왓을때 나의 원고 리사이클러뷰 로딩해줄 필요가 있다
                         break;
 
