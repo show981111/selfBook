@@ -94,7 +94,6 @@ public class bookCoverAdapter<T extends viewBook> extends RecyclerView.Adapter<b
                         intent.putExtra("userPurchaseInfo", userPurchasesArrayList.get(position));
                         mContext.startActivity(intent);
                         //여기서 TEMPLATECONTENT fetch 해줄것!
-                        //Toast.makeText(mContext, "TOUCHED"+String.valueOf(templateItem.getBookPrice()), Toast.LENGTH_LONG).show();
                     }
                 });
                 //holder.bookDescription.setText(userPurchaseItem.getStatus());
