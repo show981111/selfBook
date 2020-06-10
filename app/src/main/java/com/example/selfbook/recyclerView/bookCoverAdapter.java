@@ -18,6 +18,8 @@ import com.example.selfbook.Data.userInfo;
 import com.example.selfbook.Data.viewBook;
 import com.example.selfbook.MyDraftActivity;
 import com.example.selfbook.R;
+import com.example.selfbook.api.Api;
+import com.example.selfbook.getData.fetchTemplateContent;
 
 import java.util.ArrayList;
 
@@ -94,6 +96,9 @@ public class bookCoverAdapter<T extends viewBook> extends RecyclerView.Adapter<b
                         intent.putExtra("userPurchaseInfo", userPurchasesArrayList.get(position));
                         mContext.startActivity(intent);
                         //여기서 TEMPLATECONTENT fetch 해줄것!
+                        fetchTemplateContent fetchTemplateContent = new fetchTemplateContent(userPurchasesArrayList.get(position).getUserID() ,
+                                userPurchasesArrayList.get(position).getUserTemplateCode() );
+                        fetchTemplateContent.execute(Api.GET_getTemplateContent);
                     }
                 });
                 //holder.bookDescription.setText(userPurchaseItem.getStatus());
