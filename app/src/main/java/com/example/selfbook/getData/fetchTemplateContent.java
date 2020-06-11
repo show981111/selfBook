@@ -1,11 +1,19 @@
 package com.example.selfbook.getData;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
+
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.selfbook.Data.templateTreeNode;
 import com.example.selfbook.Data.userAnswer;
 import com.example.selfbook.Data.userInfo;
+import com.example.selfbook.MyDraftActivity;
+import com.example.selfbook.recyclerView.bookCoverAdapter;
+import com.example.selfbook.recyclerView.chapterListAdapter;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -26,12 +34,16 @@ public class fetchTemplateContent extends AsyncTask<String, Void, templateTreeNo
 
     private String userID;
     private int templateCode;
+    private Context mContext;
+    private RecyclerView rv_chapter;
 
     private templateTreeNode templateTree;
 
-    public fetchTemplateContent(String userID, int templateCode) {
+    public fetchTemplateContent(String userID, int templateCode, Context mContext, RecyclerView rv_chapter) {
         this.userID = userID;
         this.templateCode = templateCode;
+        this.mContext= mContext;
+        this.rv_chapter = rv_chapter;
     }
 
     @Override
@@ -78,7 +90,7 @@ public class fetchTemplateContent extends AsyncTask<String, Void, templateTreeNo
             JSONArray chapterArray = Job.getJSONArray("templateChildren");// 그 템플릿의 자식인 챕터가 들어옴
             for(int j = 0; j < chapterArray.length(); j++)
             {
-                Log.d("fetchTemplate", "chapterArrayStart");
+                //Log.d("fetchTemplate", "chapterArrayStart");
                 JSONObject chapterObject = chapterArray.getJSONObject(j);
                 int chapCode = chapterObject.getInt("chapterCode");
                 String chapName =chapterObject.getString("chapterName");
@@ -87,11 +99,11 @@ public class fetchTemplateContent extends AsyncTask<String, Void, templateTreeNo
                 templateTreeNode chapterTree = new templateTreeNode(chapterInfo);
                 JSONArray questionArray = chapterObject.getJSONArray("chapterChildren");
                 Log.d("fetchTemplate", questionArray.toString());
-                Log.d("fetchTemplate", String.valueOf(questionArray.length()));
+                //Log.d("fetchTemplate", String.valueOf(questionArray.length()));
                 for(int k = 0; k < questionArray.length(); k++)
                 {
                     JSONObject questionObject = questionArray.getJSONObject(k);
-                    Log.d("fetchTemplate", questionObject.toString());
+                    //Log.d("fetchTemplate", questionObject.toString());
                     if(questionObject.has("questionCode")  ) {
                         int questionCode = questionObject.getInt("questionCode");
                         String questionName = questionObject.getString("questionName");
@@ -103,7 +115,7 @@ public class fetchTemplateContent extends AsyncTask<String, Void, templateTreeNo
 
                         chapterTree.addChild(questionTree);
 
-                        Log.d("fetchTemplate", "questionArray" + questionCode);
+                        //Log.d("fetchTemplate", "questionArray" + questionCode);
                     }
                 }
 
@@ -141,5 +153,9 @@ public class fetchTemplateContent extends AsyncTask<String, Void, templateTreeNo
                 Log.d("fetchTemplate", "------------------------");
             }
         }
+        //Log.d("fetchTemplate", templateTreeNode.ge);
+        chapterListAdapter myChapterAdapter = new chapterListAdapter(mContext, templateTreeNode);
+        rv_chapter.setLayoutManager(new GridLayoutManager(mContext, 3));
+        rv_chapter.setAdapter(myChapterAdapter);
     }
 }

@@ -3,10 +3,16 @@ package com.example.selfbook;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.example.selfbook.Data.userInfo;
+import com.example.selfbook.api.Api;
+import com.example.selfbook.getData.fetchTemplateContent;
 
 
 /**
@@ -24,25 +30,20 @@ public class ChapterDraftFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    private userInfo userPurchaseInfo;
+
     public ChapterDraftFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ChapterDraftFragment.
-     */
     // TODO: Rename and change types and number of parameters
-    public static ChapterDraftFragment newInstance(String param1, String param2) {
+    public static ChapterDraftFragment newInstance(userInfo userPurchaseInfo) {
         ChapterDraftFragment fragment = new ChapterDraftFragment();
+
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putParcelable("userPurchaseInfo", userPurchaseInfo);
         fragment.setArguments(args);
+
         return fragment;
     }
 
@@ -50,8 +51,8 @@ public class ChapterDraftFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            this.userPurchaseInfo = getArguments().getParcelable("userPurchaseInfo");
+            Log.d("sibal",this.userPurchaseInfo.getUserBookName());
         }
     }
 
@@ -59,6 +60,12 @@ public class ChapterDraftFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_chapter_draft, container, false);
+        View v = inflater.inflate(R.layout.fragment_chapter_draft, container, false);
+        RecyclerView rv_chapterList = v.findViewById(R.id.rv_chapter);
+        fetchTemplateContent fetchTemplateContent = new fetchTemplateContent(userPurchaseInfo.getUserID() ,
+                userPurchaseInfo.getUserTemplateCode(), getActivity() , rv_chapterList );
+        fetchTemplateContent.execute(Api.GET_getTemplateContent);
+
+        return v;
     }
 }
