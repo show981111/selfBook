@@ -80,14 +80,20 @@ public class postUserAnswer extends AsyncTask<String, Void, String> {
         {
             if( et_title != null)
             {
-                et_title.setBackgroundColor(Color.LTGRAY);
+                et_title.setBackgroundColor(Color.rgb(190, 185, 201));
                 Toast toast = Toast.makeText(context,"등록하였습니다",Toast.LENGTH_SHORT);
                 toast.setGravity(Gravity.CENTER, 0, 0);
                 toast.show(); // center align
 
+            }else{
+                Toast toast = Toast.makeText(context,"null?",Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.CENTER, 0, 0);
+                toast.show(); // center align
             }
-        }else{
-
+        }else if(s.equals("redundant")){
+            Toast toast = Toast.makeText(context,"변경 내용이 없습니다!",Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            toast.show(); // center align
         }
     }
 }

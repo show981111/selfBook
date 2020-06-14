@@ -3,6 +3,7 @@ package com.example.selfbook;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
@@ -31,6 +32,7 @@ public class ChapterDraftFragment extends Fragment {
     private String mParam2;
 
     private userInfo userPurchaseInfo;
+    private RecyclerView rv_chapterList;
 
     public ChapterDraftFragment() {
         // Required empty public constructor
@@ -61,11 +63,27 @@ public class ChapterDraftFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_chapter_draft, container, false);
-        RecyclerView rv_chapterList = v.findViewById(R.id.rv_chapter);
+        rv_chapterList = v.findViewById(R.id.rv_chapter);
+        Log.d("chapAdaterONCREATEV", "CALLED");
         fetchTemplateContent fetchTemplateContent = new fetchTemplateContent(userPurchaseInfo.getUserID() ,
                 userPurchaseInfo.getUserTemplateCode(), getActivity() , rv_chapterList );
         fetchTemplateContent.execute(Api.GET_getTemplateContent);
 
+
         return v;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d("chapAdap", "resume");
+        if(rv_chapterList != null) {
+            if(rv_chapterList.getAdapter() != null) {
+                rv_chapterList.getAdapter().notifyDataSetChanged();
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.detach(this).attach(this).commit();
+            }
+        }
+
     }
 }

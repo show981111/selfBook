@@ -12,7 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".MyDraftActivity"></activity>
+        <activity android:name=".OverViewActivity"></activity>
+        <activity android:name=".QuestionActivity" />
+        <activity android:name=".MyDraftActivity" />
         <activity android:name=".BookInfoActivity" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".LoginActivity" />

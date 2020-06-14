@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_questionItem"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/tv_question"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:hint="질문 1 : 질문을 뭐로 적어야 하징 "
+        android:textSize="20sp"/>
+
+    <LinearLayout
+        android:id="@+id/ll_typeAnswer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/et_typeAnswer"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:hint="답변을 입력해주세요~"
+            android:layout_weight="1"
+            android:textSize="15sp"/>
+
+        <ImageButton
+            android:id="@+id/bt_uploadAnswer"
+            android:clickable="true"
+            android:paddingLeft="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/bt_selector"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_dropDown"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?android:attr/selectableItemBackground"
+        android:layout_height="wrap_content"
+        >
+        <ImageView
+            android:id="@+id/iv_dropDown"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_dropdown"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#726D7D"
+        />
+
+</LinearLayout>

@@ -2,6 +2,7 @@ package com.example.selfbook.getData;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.text.TextUtils;
 import android.util.Log;
 
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -88,6 +89,7 @@ public class fetchTemplateContent extends AsyncTask<String, Void, templateTreeNo
             templateTree = new templateTreeNode(templateInfo);// 먼저 템플릿을 넣어
 
             JSONArray chapterArray = Job.getJSONArray("templateChildren");// 그 템플릿의 자식인 챕터가 들어옴
+            int isTemplateFull = 1;
             for(int j = 0; j < chapterArray.length(); j++)
             {
                 //Log.d("fetchTemplate", "chapterArrayStart");
@@ -98,18 +100,25 @@ public class fetchTemplateContent extends AsyncTask<String, Void, templateTreeNo
 
                 templateTreeNode chapterTree = new templateTreeNode(chapterInfo);
                 JSONArray questionArray = chapterObject.getJSONArray("chapterChildren");
-                Log.d("fetchTemplate", questionArray.toString());
-                //Log.d("fetchTemplate", String.valueOf(questionArray.length()));
-                for(int k = 0; k < questionArray.length(); k++)
+//                Log.d("fetchTemplate", questionArray.toString());
+
+                int isFull = 1;
+                for(int k = 0; k < questionArray.length(); k++)//get all child Question
                 {
                     JSONObject questionObject = questionArray.getJSONObject(k);
-                    //Log.d("fetchTemplate", questionObject.toString());
+
                     if(questionObject.has("questionCode")  ) {
                         int questionCode = questionObject.getInt("questionCode");
                         String questionName = questionObject.getString("questionName");
                         String hint = questionObject.getString("hint");
                         String answer = questionObject.getString("answer");
-
+                        Log.d("chapterAnswer", answer + questionCode);
+                        if(answer != null && !TextUtils.isEmpty(answer) && !answer.equals("null")){
+                            Log.d("chapterAnswer", "full");
+                            isFull = isFull * 1;
+                        }else{
+                            isFull = 0;
+                        }
                         userAnswer questionInfo = new userAnswer(questionCode, questionName, hint, answer);
                         templateTreeNode questionTree = new templateTreeNode(questionInfo);
 
@@ -118,10 +127,22 @@ public class fetchTemplateContent extends AsyncTask<String, Void, templateTreeNo
                         //Log.d("fetchTemplate", "questionArray" + questionCode);
                     }
                 }
-
+                Log.d("chapterAnswer", "--------------------");
+                if(isFull == 1)
+                {
+                    chapterTree.getData().setHint("full");
+                    isTemplateFull = isTemplateFull * 1;
+                    Log.d("chap", "full"+chapterTree.getData().getID());
+                }else{
+                    isTemplateFull = 0;
+                }
                 templateTree.addChild(chapterTree);
             }
-
+            if(isTemplateFull == 1)
+            {
+                templateTree.getData().setHint("full");
+                Log.d("chap", "full Temp"+templateTree.getData().getID());
+            }
 
 
             return templateTree;
@@ -134,27 +155,29 @@ public class fetchTemplateContent extends AsyncTask<String, Void, templateTreeNo
     @Override
     protected void onPostExecute(templateTreeNode templateTreeNode) {
         super.onPostExecute(templateTreeNode);
-        ArrayList<Integer> chapters = new ArrayList<>();
-        ArrayList<Integer> questions = new ArrayList<>();
-        Log.d("fetchTemplate", templateTreeNode + "das");
-        if(templateTreeNode != null) {
-            List<templateTreeNode> chapterLists = templateTreeNode.getChildren();
-            for (int i = 0; i < chapterLists.size(); i++) {
-                templateTreeNode Achapter = chapterLists.get(i);
-                userAnswer data = Achapter.getData();
-                chapters.add(data.getID());
-                Log.d("fetchTemplate", data.getID() + "//");
-                List<templateTreeNode> questionsLists = Achapter.getChildren();
-                for (int j = 0; j < questionsLists.size(); j++) {
-                    templateTreeNode Aquestion = questionsLists.get(j);
-                    userAnswer qData = Aquestion.getData();
-                    Log.d("fetchTemplate", qData.getID() + "//");
-                }
-                Log.d("fetchTemplate", "------------------------");
-            }
-        }
+//        ArrayList<Integer> chapters = new ArrayList<>();
+//        ArrayList<Integer> questions = new ArrayList<>();
+//        Log.d("fetchTemplate", templateTreeNode + "das");
+//        if(templateTreeNode != null) {
+//            List<templateTreeNode> chapterLists = templateTreeNode.getChildren();
+//            for (int i = 0; i < chapterLists.size(); i++) {
+//                templateTreeNode Achapter = chapterLists.get(i);
+//                userAnswer data = Achapter.getData();
+//                chapters.add(data.getID());
+//                Log.d("fetchTemplate", data.getID() + "//");
+//                List<templateTreeNode> questionsLists = Achapter.getChildren();
+//                for (int j = 0; j < questionsLists.size(); j++) {
+//                    templateTreeNode Aquestion = questionsLists.get(j);
+//                    userAnswer qData = Aquestion.getData();
+//                    Log.d("fetchTemplate", qData.getID() + "//");
+//                }
+//                Log.d("fetchTemplate", "------------------------");
+//            }
+//        }
         //Log.d("fetchTemplate", templateTreeNode.ge);
         chapterListAdapter myChapterAdapter = new chapterListAdapter(mContext, templateTreeNode);
+        Log.d("chapAdater", "CALLED");
+        myChapterAdapter.notifyDataSetChanged();
         rv_chapter.setLayoutManager(new GridLayoutManager(mContext, 3));
         rv_chapter.setAdapter(myChapterAdapter);
     }
