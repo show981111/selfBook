@@ -75,6 +75,7 @@ public class chapterListAdapter extends RecyclerView.Adapter<chapterListViewHold
                     questionArrayList.add(questionList.get(i).getData());
                 }
                 Intent intent = new Intent(mContext, QuestionActivity.class);
+                intent.putExtra("templateCode",templateTree.getData().getID());
                 intent.putParcelableArrayListExtra("questionArray", questionArrayList);
                 mContext.startActivity(intent);
             }

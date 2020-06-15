@@ -40,9 +40,10 @@ public class QuestionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question);
-
+        final int templateCode;
         final RecyclerView rv_questionList = findViewById(R.id.rv_question);
         Intent intent = getIntent();
+        templateCode = intent.getIntExtra("templateCode", -1);
         questionArray = intent.getParcelableArrayListExtra("questionArray");
 
 //        guideBookAdapter = new bookCoverAdapter<templateInfo>(context, templateInfoArrayList);
@@ -62,6 +63,13 @@ public class QuestionActivity extends AppCompatActivity {
                     case R.id.home :
                         Intent intent = new Intent(QuestionActivity.this, MainActivity.class);
                         QuestionActivity.this.startActivity(intent);
+                        break;
+                    case R.id.overview:
+                        if(templateCode != -1) {
+                            Intent intentOverView = new Intent(QuestionActivity.this, OverViewActivity.class);
+                            intentOverView.putExtra("templateCode", templateCode);
+                            QuestionActivity.this.startActivity(intentOverView);
+                        }
                         break;
                 }
                 return false;

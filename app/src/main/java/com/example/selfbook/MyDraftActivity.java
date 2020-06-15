@@ -59,6 +59,11 @@ public class MyDraftActivity extends AppCompatActivity {
                         Intent intent = new Intent(MyDraftActivity.this, MainActivity.class);
                         MyDraftActivity.this.startActivity(intent);
                         break;
+                    case R.id.overview:
+                        Intent intentOverView = new Intent(MyDraftActivity.this, OverViewActivity.class);
+                        intentOverView.putExtra("templateCode", userPurchaseInfo.getUserTemplateCode());
+                        MyDraftActivity.this.startActivity(intentOverView);
+                        break;
                 }
                 return false;
             }
