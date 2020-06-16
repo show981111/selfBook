@@ -82,7 +82,7 @@ public class fetchMyDraft extends AsyncTask<String, Void, userInfo[]> {
                 Log.d("loginTask", "res");
                 Gson gson = new Gson();
                 userInfo[] userInfos = gson.fromJson(response.body().charStream(), userInfo[].class);
-                Log.d("loginTask", "got");
+
                 return userInfos;
 
             } catch (IOException e) {

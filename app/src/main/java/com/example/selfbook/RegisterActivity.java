@@ -3,6 +3,7 @@ package com.example.selfbook;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -40,15 +41,24 @@ public class RegisterActivity extends AppCompatActivity {
         registerSendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(register_userPassword.getText().toString().equals(register_userPasswordCheck.getText().toString()))
-                {
-                    registerTask registerTask = new registerTask(register_userName.getText().toString(),register_userEmail.getText()
-                            .toString(), register_userPassword.getText().toString());
-                    registerTask.execute(Api.POST_REGISTER);
 
+                if(android.util.Patterns.EMAIL_ADDRESS.matcher(register_userEmail.getText()).matches()) {
+
+                    if (register_userPassword.getText().toString().equals(register_userPasswordCheck.getText().toString())) {
+                        registerTask registerTask = new registerTask(register_userName.getText().toString(), register_userEmail.getText()
+                                .toString(), register_userPassword.getText().toString());
+                        registerTask.execute(Api.POST_REGISTER);
+
+                    } else {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
+                        builder.setMessage("비밀번호와 비밀번호 확인이 일치하지 않습니다!")
+                                .setNegativeButton("다시 시도", null)
+                                .create()
+                                .show();
+                    }
                 }else{
                     AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
-                    builder.setMessage("비밀번호와 비밀번호 확인이 일치하지 않습니다!")
+                    builder.setMessage("이메일 형식이 올바르지 않습니다!")
                             .setNegativeButton("다시 시도", null)
                             .create()
                             .show();
@@ -106,12 +116,21 @@ public class RegisterActivity extends AppCompatActivity {
             if(s.equals("success")) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
                 builder.setMessage("회원가입에 성공하였습니다! 로그인해주세요!")
+                        .setNegativeButton("확인", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                                RegisterActivity.this.startActivity(intent);
+                            }
+                        })
+                        .create()
+                        .show();
+            }else if(s.equals("already")){
+                AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
+                builder.setMessage("이미 가입되어 있습니다!")
                         .setNegativeButton("확인", null)
                         .create()
                         .show();
-                Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-                RegisterActivity.this.startActivity(intent);
-
             }else{
                 AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
                 builder.setMessage("회원가입에 실패하였습니다")

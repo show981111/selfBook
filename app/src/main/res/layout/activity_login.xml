@@ -65,6 +65,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="회원가입"/>
+
+        <Button
+            android:id="@+id/bt_resetPassword"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/button_background"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="비밀번호 재설정"/>
         
     </LinearLayout>
 
