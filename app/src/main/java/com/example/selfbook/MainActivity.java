@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -42,8 +43,8 @@ public class MainActivity extends AppCompatActivity {
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
 
-        if(userID != null && !userID.equals("")){
-            bottomNavigationView.getMenu().findItem(R.id.login).setTitle(userID);
+        if(userID != null && !TextUtils.isEmpty(userID) && userName != null && !TextUtils.isEmpty(userName)){
+            bottomNavigationView.getMenu().findItem(R.id.login).setTitle(userName);
             fetchMyDraft fetchMyDraft = new fetchMyDraft(userID, rv_myDraft,emptyMyDraft,this);
             fetchMyDraft.execute(Api.GET_USERINFO);
         }

@@ -30,6 +30,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 import static com.example.selfbook.MainActivity.userID;
+import static com.example.selfbook.MainActivity.userName;
 
 public class BookInfoActivity extends AppCompatActivity {
 
@@ -69,8 +70,8 @@ public class BookInfoActivity extends AppCompatActivity {
         tv_madeDate.setText(templateInfoItem.getMadeDate());
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_bookNavi);
-        if(userID != null && !userID.equals("")){
-            bottomNavigationView.getMenu().findItem(R.id.login).setTitle(userID);
+        if(userName != null && !userName.equals("")){
+            bottomNavigationView.getMenu().findItem(R.id.login).setTitle(userName);
         }
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -176,6 +177,8 @@ public class BookInfoActivity extends AppCompatActivity {
             if(s.equals("success"))
             {
                 Toast.makeText(BookInfoActivity.this,"성공적으로 구매하였습니다!",Toast.LENGTH_SHORT).show();
+            }else if(s.equals("already")){
+                Toast.makeText(BookInfoActivity.this,"이미 구매한 책입니다!",Toast.LENGTH_LONG).show();
             }else{
                 Toast.makeText(BookInfoActivity.this,"에러가 발생했습니다! 다시한번 시도해주세요!",Toast.LENGTH_LONG).show();
 

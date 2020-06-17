@@ -11,5 +11,6 @@ public class Api {
     public static final String GET_getTemplateContent = BASE_URL + "/getTemplateContent.php";
     public static final String GET_OVERVIEW = BASE_URL + "/makeOverView.php";
     public static final String SEND_AUTH = BASE_URL + "/sendAuth.php";
+    public static final String POST_RESETPW = BASE_URL + "/resetPW.php";
 
 }
