@@ -17,6 +17,7 @@
             android:layout_width="80dp"
             android:layout_height="100dp"
             android:background="@color/colorPrimary"
+            android:src="@drawable/test_movie_1"
             />
 
         <TextView
@@ -29,7 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:text="50000"
-            android:textSize="20sp"
+            android:textSize="13sp"
             android:id = "@+id/tv_guideBookPrice"
             />
 

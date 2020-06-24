@@ -11,14 +11,11 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
-
-import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.ItemTouchHelper;
-import androidx.recyclerview.widget.RecyclerView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,6 +23,12 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
+
+import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.RecyclerView;
+
 
 public abstract class mySwipeHelper extends ItemTouchHelper.SimpleCallback {
 
@@ -35,20 +38,36 @@ public abstract class mySwipeHelper extends ItemTouchHelper.SimpleCallback {
     private GestureDetector gestureDetector;
     private int swipePosition = -1;
     private float swipeThreshold = 0.5f;
-    private Map<Integer, List<MyButton>> buttonBuffer;
+    private Map<Integer, List<MyButton> > buttonBuffer;
     private Queue<Integer> removeQueue;
     private Context context;
 
     private GestureDetector.SimpleOnGestureListener gestureListener = new GestureDetector.SimpleOnGestureListener(){
+
         @Override
         public boolean onSingleTapUp(MotionEvent e) {
-            for(MyButton button : buttonList)
-            {
-                if(button.onClick(e.getX(),e.getY()))
-                    break;
-            }
+            Log.d("ini", "tapped");
+//            for(MyButton button : buttonList)
+//            {
+//                Log.d("ini", "buttonList");
+//                if(button.onClick(e.getX(),e.getY()))
+//                    break;
+//            }
             return true;
         }
+
+        @Override
+        public boolean onDown(MotionEvent e) {
+//            Log.d("ini", "tappeddONDOwn");
+//            for(MyButton button : buttonList)
+//            {
+//                Log.d("ini", "llll");
+//                if(button.onClick(e.getX(),e.getY()))
+//                    break;
+//            }
+            return true;
+        }
+
     };
 
     private View.OnTouchListener onTouchListener = new View.OnTouchListener(){
@@ -56,19 +75,34 @@ public abstract class mySwipeHelper extends ItemTouchHelper.SimpleCallback {
         @Override
         public boolean onTouch(View view, MotionEvent motionEvent) {
             if(swipePosition < 0) return false;
+            Log.d("ini", "onTouch");
             Point point = new Point( (int) motionEvent.getRawX(), (int) motionEvent.getRawY());
 
             RecyclerView.ViewHolder swipeViewHolder = recyclerView.findViewHolderForAdapterPosition(swipePosition);
             View swipedItem = swipeViewHolder.itemView;
             Rect rect = new Rect();
             swipedItem.getGlobalVisibleRect(rect);
-
+            view.setClickable(true);
             if(motionEvent.getAction() == MotionEvent.ACTION_DOWN ||
-            motionEvent.getAction() == MotionEvent.ACTION_UP ||
-            motionEvent.getAction() == MotionEvent.ACTION_MOVE)
+                    motionEvent.getAction() == MotionEvent.ACTION_UP ||
+                    motionEvent.getAction() == MotionEvent.ACTION_MOVE)
             {
-                if(rect.top < point.y && rect.bottom > point.y)
-                    gestureDetector.onTouchEvent(motionEvent);
+                Log.d("ini", "onTouchInside"+motionEvent.getAction() + " d " + MotionEvent.ACTION_DOWN + " Mo" + MotionEvent.ACTION_UP);
+                if(rect.top < point.y && rect.bottom > point.y) {
+                    //Log.d("ini", "onTOuchCalled");
+                    Boolean ans = gestureDetector.onTouchEvent(motionEvent);
+
+                    if(motionEvent.getAction() == MotionEvent.ACTION_UP){
+                        Log.d("ini","acgtion up");
+                        for(MyButton button : buttonList)
+                        {
+                            Log.d("ini", "buttonList");
+                            if(button.onClick(motionEvent.getX(),motionEvent.getY()))
+                                break;
+                        }
+                    }
+                    Log.d("ini", ans + "detect");
+                }
                 else{
                     removeQueue.add(swipePosition);
                     swipePosition = -1;
@@ -199,8 +233,8 @@ public abstract class mySwipeHelper extends ItemTouchHelper.SimpleCallback {
         }
     }
 
-
-    public class MyButton {
+    //implements View.OnClickListener
+    public class MyButton{
         private String text;
         private int imageResId,textSIze,color,pos;
         private RectF clickRegion;
@@ -209,6 +243,7 @@ public abstract class mySwipeHelper extends ItemTouchHelper.SimpleCallback {
         private Resources resources;
 
         public MyButton(Context context, String text, int textSIze, int imageResId, int color, MyButtonClickListener listener) {
+            Log.d("ini", "constructed");
             this.text = text;
             this.imageResId = imageResId;
             this.textSIze = textSIze;
@@ -222,6 +257,7 @@ public abstract class mySwipeHelper extends ItemTouchHelper.SimpleCallback {
 
         public boolean onClick(float x , float y)
         {
+            Log.d("ini", "onCLick Mybutton");
             if(clickRegion != null && clickRegion.contains(x,y))
             {
                 listener.onClick(pos);
@@ -261,6 +297,10 @@ public abstract class mySwipeHelper extends ItemTouchHelper.SimpleCallback {
 
         }
 
+//        @Override
+//        public void onClick(View v) {
+//            Log.d("ini", "onCLick Mybutton");
+//        }
     }
 
     private Bitmap drawableToBitmap(Drawable d) {

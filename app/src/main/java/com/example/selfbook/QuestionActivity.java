@@ -78,12 +78,15 @@ public class QuestionActivity extends AppCompatActivity {
 
         final mySwipeHelper swipeHelper = new mySwipeHelper(this, rv_questionList, 200) {
             @Override
-            public void instantiateMyButton(RecyclerView.ViewHolder viewHolder, List<MyButton> buffer) {
+            public void instantiateMyButton(RecyclerView.ViewHolder viewHolder, List<mySwipeHelper.MyButton> buffer) {
+                Log.d("ini", "ini");
                 buffer.add(new MyButton(getApplicationContext(), "skip", 60, 0, Color.parseColor("#266ee0"), new MyButtonClickListener() {
                     @Override
                     public void onClick(int pos) {
+                        Log.d("skip", "clickled");
                         //Toast.makeText(getApplicationContext(), "delete Click"+pos, Toast.LENGTH_SHORT).show();
                         if(rv_questionList.findViewHolderForAdapterPosition(pos) != null) {
+                            Log.d("skip", "clickled");
                             View itemView = rv_questionList.findViewHolderForAdapterPosition(pos).itemView;
                             EditText et_typeAnswer = itemView.findViewById(R.id.et_typeAnswer);
                             postUserAnswer postUserAnswer = new postUserAnswer(getApplicationContext(), questionArray.get(pos).getID(), "skipped"
