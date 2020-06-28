@@ -1,8 +1,6 @@
 package com.example.selfbook.recyclerView;
 
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Color;
 import android.os.Build;
 import android.util.Log;
 import android.view.View;
@@ -14,12 +12,15 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.selfbook.Data.templateTreeNode;
-import com.example.selfbook.Data.userAnswer;
-import com.example.selfbook.QuestionActivity;
+import com.example.selfbook.Data.Content;
 import com.example.selfbook.R;
+import com.example.selfbook.api.Api;
+import com.example.selfbook.getData.fetchDelegateList;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.example.selfbook.MainActivity.userID;
 
 public class chapterListAdapter extends RecyclerView.Adapter<chapterListViewHolder> {
 
@@ -27,7 +28,7 @@ public class chapterListAdapter extends RecyclerView.Adapter<chapterListViewHold
     private templateTreeNode templateTree;
 
     private List<templateTreeNode> chapterList;
-    private ArrayList<userAnswer> questionArrayList = new ArrayList<>();
+    private ArrayList<Content> delegateArrayList = new ArrayList<>();
     public chapterListAdapter(Context mContext, templateTreeNode templateTree) {
         this.mContext = mContext;
         this.templateTree = templateTree;
@@ -55,7 +56,7 @@ public class chapterListAdapter extends RecyclerView.Adapter<chapterListViewHold
             holder.draftNumber.setText("CH."+chapnum);
             if(chapterList.get(position).getData().getHint() != null)
             {
-                if(chapterList.get(position).getData().getHint().equals("full")){
+                if(chapterList.get(position).getData().getStatus() == 1){
                     //holder.draftImage.setColorFilter(Color.BLACK);
                     holder.draftImage.setBackgroundTintList(ContextCompat.getColorStateList(mContext, R.color.colorAccent));
 
@@ -68,16 +69,23 @@ public class chapterListAdapter extends RecyclerView.Adapter<chapterListViewHold
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                questionArrayList.clear();
-                List<templateTreeNode> questionList = chapterList.get(position).getChildren();
-                for(int i = 0; i < questionList.size(); i++)
-                {
-                    questionArrayList.add(questionList.get(i).getData());
-                }
-                Intent intent = new Intent(mContext, QuestionActivity.class);
-                intent.putExtra("templateCode",templateTree.getData().getID());
-                intent.putParcelableArrayListExtra("questionArray", questionArrayList);
-                mContext.startActivity(intent);
+                delegateArrayList.clear();
+                Log.d("getDelegate",String.valueOf(chapterList.get(position).getData().getID()));
+                fetchDelegateList fetchDelegateList = new fetchDelegateList(userID, templateTree.getData().getID(),
+                        chapterList.get(position).getData().getID(),mContext, chapterList.get(position) );
+                fetchDelegateList.execute(Api.GET_DELEGATELIST);
+
+
+                //String userID, int templateCode, int chapterCode, Context mContext, templateTreeNode chapterNode
+//                List<templateTreeNode> delegateList = chapterList.get(position).getChildren();
+//                for(int i = 0; i < delegateList.size(); i++)
+//                {
+//                    delegateArrayList.add(delegateList.get(i).getData());
+//                }
+//                Intent intent = new Intent(mContext, QuestionActivity.class);
+//                intent.putExtra("templateCode",templateTree.getData().getID());
+////                intent.putParcelableArrayListExtra("delegateArray", delegateArrayList);
+//                mContext.startActivity(intent);
             }
         });
     }

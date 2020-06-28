@@ -12,5 +12,7 @@ public class Api {
     public static final String GET_OVERVIEW = BASE_URL + "/makeOverView.php";
     public static final String SEND_AUTH = BASE_URL + "/sendAuth.php";
     public static final String POST_RESETPW = BASE_URL + "/resetPW.php";
-
+    public static final String GET_CHAPTERLIST = BASE_URL + "/getChapter.php";
+    public static final String GET_DELEGATELIST = BASE_URL + "/getDelegate.php";
+    public static final String GET_DETAILLIST = BASE_URL + "/getDetail.php";
 }

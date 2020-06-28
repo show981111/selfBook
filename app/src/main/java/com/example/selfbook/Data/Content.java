@@ -3,36 +3,47 @@ package com.example.selfbook.Data;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class userAnswer implements Parcelable {
+public class Content implements Parcelable {
     private int ID;
     private String name;
     private String hint;
     private String answer;
+    private int status;
 
 
-    public userAnswer(int ID, String name, String hint, String answer) {
+    public Content(int ID, String name, String hint, String answer, int status) {
         this.ID = ID;
         this.name = name;
         this.hint = hint;
         this.answer = answer;
+        this.status = status;
     }
 
-    protected userAnswer(Parcel in) {
+    protected Content(Parcel in) {
         ID = in.readInt();
         name = in.readString();
         hint = in.readString();
         answer = in.readString();
+        status = in.readInt();
     }
 
-    public static final Creator<userAnswer> CREATOR = new Creator<userAnswer>() {
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public static final Creator<Content> CREATOR = new Creator<Content>() {
         @Override
-        public userAnswer createFromParcel(Parcel in) {
-            return new userAnswer(in);
+        public Content createFromParcel(Parcel in) {
+            return new Content(in);
         }
 
         @Override
-        public userAnswer[] newArray(int size) {
-            return new userAnswer[size];
+        public Content[] newArray(int size) {
+            return new Content[size];
         }
     };
 
@@ -79,5 +90,6 @@ public class userAnswer implements Parcelable {
         dest.writeString(name);
         dest.writeString(hint);
         dest.writeString(answer);
+        dest.writeInt(status);
     }
 }

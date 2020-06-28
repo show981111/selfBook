@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 
 import com.example.selfbook.Data.userInfo;
 import com.example.selfbook.api.Api;
+import com.example.selfbook.getData.fetchChapterList;
 import com.example.selfbook.getData.fetchTemplateContent;
 
 
@@ -65,9 +66,12 @@ public class ChapterDraftFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_chapter_draft, container, false);
         rv_chapterList = v.findViewById(R.id.rv_chapter);
         Log.d("chapAdaterONCREATEV", "CALLED");
-        fetchTemplateContent fetchTemplateContent = new fetchTemplateContent(userPurchaseInfo.getUserID() ,
-                userPurchaseInfo.getUserTemplateCode(), getActivity() , rv_chapterList );
-        fetchTemplateContent.execute(Api.GET_getTemplateContent);
+//        fetchTemplateContent fetchTemplateContent = new fetchTemplateContent(userPurchaseInfo.getUserID() ,
+//                userPurchaseInfo.getUserTemplateCode(), getActivity() , rv_chapterList );
+//        fetchTemplateContent.execute(Api.GET_getTemplateContent);
+        fetchChapterList fetchChapterList = new fetchChapterList(userPurchaseInfo.getUserID() ,
+               userPurchaseInfo.getUserTemplateCode(), getActivity() , rv_chapterList );
+        fetchChapterList.execute(Api.GET_CHAPTERLIST);
 
 
         return v;

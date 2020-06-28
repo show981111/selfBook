@@ -12,9 +12,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".EmailAuthActivity"></activity>
+        <activity android:name=".DetailActivity"></activity>
+        <activity android:name=".EmailAuthActivity" />
         <activity android:name=".OverViewActivity" />
-        <activity android:name=".QuestionActivity" />
+        <activity android:name=".DelegateActivity" />
         <activity android:name=".MyDraftActivity" />
         <activity android:name=".BookInfoActivity" />
         <activity android:name=".RegisterActivity" />

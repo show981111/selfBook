@@ -1,6 +1,7 @@
 package com.example.selfbook.getData;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -9,13 +10,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.selfbook.Data.Content;
 import com.example.selfbook.Data.templateTreeNode;
+import com.example.selfbook.DelegateActivity;
+import com.example.selfbook.DetailActivity;
 import com.example.selfbook.recyclerView.chapterListAdapter;
+import com.example.selfbook.recyclerView.delegateListAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
@@ -23,28 +28,30 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class fetchDetailList extends AsyncTask<String, Void, templateTreeNode> {
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
+
+public class fetchDetailList extends AsyncTask<String, Void, ArrayList<Content> > {
 
     private String userID;
-    private int templateCode;
+    private int delegateCode;
     private Context mContext;
-    private RecyclerView rv_chapter;
+    private int templateCode;
+    //private RecyclerView rv_detail;
 
-    public templateTreeNode templateRoot;
+    //public templateTreeNode delegateNode;
 
-//    private ArrayList<Content> chapterList = new ArrayList<>();
+    private ArrayList<Content> detailList = new ArrayList<>();
 
-    public fetchDetailList(String userID, int templateCode, Context mContext, RecyclerView rv_chapter) {
+    public fetchDetailList(String userID, int delegateCode, Context mContext, int templateCode) {
         this.userID = userID;
-        this.templateCode = templateCode;
+        this.delegateCode = delegateCode;
         this.mContext = mContext;
-        this.rv_chapter = rv_chapter;
-        Content template = new Content(templateCode, null, null, null, 0 );
-        templateRoot = new templateTreeNode(template);
+        this.templateCode = templateCode;
+        Log.d("fetchDetailList",mContext.toString());
     }
 
     @Override
-    protected templateTreeNode doInBackground(String... strings) {
+    protected ArrayList<Content> doInBackground(String... strings) {
         String url = strings[0];
 
 
@@ -52,7 +59,7 @@ public class fetchDetailList extends AsyncTask<String, Void, templateTreeNode> {
 
         RequestBody formBody = new FormBody.Builder()
                 .add("userID", userID)
-                .add("templateCode", String.valueOf(templateCode))
+                .add("delegateCode", String.valueOf(delegateCode))
                 .build();
 
 
@@ -65,30 +72,32 @@ public class fetchDetailList extends AsyncTask<String, Void, templateTreeNode> {
 
         try {
             responses = okHttpClient.newCall(request).execute();
-            Log.d("fetchChapter", "res");
+            Log.d("fetchDetailList", "res");
         } catch (IOException e) {
             e.printStackTrace();
-            Log.d("fetchChapter", "IOE");
+            Log.d("fetchDetailList", "IOE");
             return null;
         }
 
         String jsonData = null;
         try {
             jsonData = responses.body().string();
-            JSONArray chapterArray = new JSONArray(jsonData);
+            JSONArray detailArray = new JSONArray(jsonData);
 
-            for(int i = 0; i < chapterArray.length(); i++)
+            for(int i = 0; i < detailArray.length(); i++)
             {
-                JSONObject chapterObject = chapterArray.getJSONObject(i);
-                int chapCode = chapterObject.getInt("chapterCode");
-                String chapName =chapterObject.getString("chapterName");
-                int status = chapterObject.getInt("status");
-                Content content = new Content(chapCode, chapName,null, null ,status);
-                templateTreeNode Achapter = new templateTreeNode(content);
-                templateRoot.addChild(Achapter);
+                JSONObject detailObject = detailArray.getJSONObject(i);
+                int detailCode = detailObject.getInt("detailCode");
+                String detailName =detailObject.getString("detailName");
+                String detailHint =detailObject.getString("detailHint");
+                String detailAnswer =detailObject.getString("detailAnswer");
+                int status = detailObject.getInt("status");
+                Content content = new Content(detailCode, detailName,detailHint, detailAnswer ,status);
+//                templateTreeNode detailNode = new templateTreeNode(content);
+                detailList.add(content);
 
             }
-            return templateRoot;
+            return detailList;
         } catch (IOException | JSONException e) {
             e.printStackTrace();
             return null;
@@ -96,13 +105,17 @@ public class fetchDetailList extends AsyncTask<String, Void, templateTreeNode> {
     }
 
     @Override
-    protected void onPostExecute(templateTreeNode templateNode) {
-        super.onPostExecute(templateNode);
+    protected void onPostExecute(ArrayList<Content> detailList) {
+        super.onPostExecute(detailList);
 
-        chapterListAdapter myChapterAdapter = new chapterListAdapter(mContext, templateNode);
-        Log.d("chapAdater", "CALLED");
-        myChapterAdapter.notifyDataSetChanged();
-        rv_chapter.setLayoutManager(new GridLayoutManager(mContext, 3));
-        rv_chapter.setAdapter(myChapterAdapter);
+//        delegateListAdapter myDetailAdapter = new delegateListAdapter(mContext, detailList);
+//        Log.d("chapAdater", "CALLED");
+//        myDetailAdapter.notifyDataSetChanged();
+//        rv_detail.setLayoutManager(new GridLayoutManager(mContext, 3));
+//        rv_detail.setAdapter(myDetailAdapter);
+        Intent intent1 = new Intent(mContext, DetailActivity.class);
+        intent1.putExtra("templateCode",templateCode);
+        intent1.putParcelableArrayListExtra("detailList",detailList );
+        mContext.startActivity(intent1.addFlags(FLAG_ACTIVITY_NEW_TASK));
     }
 }

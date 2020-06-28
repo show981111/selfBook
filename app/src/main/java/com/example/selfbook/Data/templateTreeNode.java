@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class templateTreeNode {
-    private userAnswer data = null;
+    private Content data = null;
     private List<templateTreeNode> children = new ArrayList<>();
 
 
-    public templateTreeNode(userAnswer data) {
+    public templateTreeNode(Content data) {
         this.data = data;
 
     }
@@ -17,7 +17,7 @@ public class templateTreeNode {
         this.children.add(child);
     }
 
-    public void addChild(userAnswer data) {
+    public void addChild(Content data) {
         templateTreeNode newChild = new templateTreeNode(data);
         children.add(newChild);
     }
@@ -30,11 +30,11 @@ public class templateTreeNode {
         return children;
     }
 
-    public userAnswer getData() {
+    public Content getData() {
         return this.data;
     }
 
-    public void setData(userAnswer data) {
+    public void setData(Content data) {
         this.data = data;
     }
 

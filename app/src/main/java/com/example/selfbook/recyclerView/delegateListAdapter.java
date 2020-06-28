@@ -25,56 +25,61 @@ import static android.content.Context.INPUT_METHOD_SERVICE;
 import static com.example.selfbook.MainActivity.userID;
 
 
-public class questionListAdapter extends RecyclerView.Adapter<questionListViewHolder> {
+public class delegateListAdapter extends RecyclerView.Adapter<delegateListViewHolder> {
 
     private Context mContext;
     private templateTreeNode templateTree;
     private Activity activity;
+    private String prevAnswer = "";
+    private ArrayList<Content> delegateList;
 
-    private ArrayList<Content> questionList;
-
-    public questionListAdapter(Context mContext, ArrayList<Content> questionList) {
+    public delegateListAdapter(Context mContext, ArrayList<Content> delegateList) {
         this.mContext = mContext;
-        this.questionList = questionList;
+        this.delegateList = delegateList;
         activity = (Activity) mContext;
 
     }
 
     @NonNull
     @Override
-    public questionListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public delegateListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View baseView = View.inflate(mContext, R.layout.question,null);
-        questionListViewHolder questionListViewHolder = new questionListViewHolder(baseView);
-        return questionListViewHolder;
+        delegateListViewHolder delegateListViewHolder = new delegateListViewHolder(baseView);
+        return delegateListViewHolder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final questionListViewHolder holder, final int position) {
-        if(questionList != null){
+    public void onBindViewHolder(@NonNull final delegateListViewHolder holder, final int position) {
+        if(delegateList != null){
 
 //            tv_question = itemView.findViewById(R.id.tv_question);
 //            ll_dropDown = itemView.findViewById(R.id.ll_dropDown);
 //            iv_dropDown = itemView.findViewById(R.id.iv_dropDown);
 //            bt_uploadAnswer = itemView.findViewById(R.id.bt_uploadAnswer);
 //            et_typeAnswer = itemView.findViewById(R.id.et_typeAnswer);
-            holder.tv_question.setText(questionList.get(position).getName());
-            final String prevAnswer = questionList.get(position).getAnswer();
+            holder.tv_question.setText(delegateList.get(position).getName());
 
-            if(questionList.get(position).getAnswer() != null && !TextUtils.isEmpty(questionList.get(position).getAnswer())
-                    && !questionList.get(position).getAnswer().equals("null")){
-                holder.et_typeAnswer.setText(questionList.get(position).getAnswer());
+
+            if(delegateList.get(position).getAnswer() != null && !TextUtils.isEmpty(delegateList.get(position).getAnswer())
+                    && !delegateList.get(position).getAnswer().equals("null") ){
+                prevAnswer = delegateList.get(position).getAnswer();
+                holder.et_typeAnswer.setText(prevAnswer);
+            }
+
+            if(delegateList.get(position).getStatus() == 1){
                 holder.ll_questionItem.setBackgroundColor(Color.rgb(190, 185, 201));
             }
-            if(questionList.get(position).getHint() != null && !TextUtils.isEmpty(questionList.get(position).getHint())){
-                holder.et_typeAnswer.setHint(questionList.get(position).getHint());
+            if(delegateList.get(position).getHint() != null && !TextUtils.isEmpty(delegateList.get(position).getHint())
+                    && !delegateList.get(position).getAnswer().equals("null")){
+                holder.et_typeAnswer.setHint(delegateList.get(position).getHint());
             }
 
 
-            if(TextUtils.isEmpty(questionList.get(position).getHint()) &&
-                    !questionList.get(position).getHint().equals("null"))
-            {
-                holder.et_typeAnswer.setHint(questionList.get(position).getHint());
-            }
+//            if(TextUtils.isEmpty(delegateList.get(position).getHint()) &&
+//                    !delegateList.get(position).getHint().equals("null"))
+//            {
+//                holder.et_typeAnswer.setHint(delegateList.get(position).getHint());
+//            }
 
 
             holder.ll_dropDown.setOnClickListener(new View.OnClickListener() {
@@ -103,7 +108,7 @@ public class questionListAdapter extends RecyclerView.Adapter<questionListViewHo
                     //Context context, int key, String input, String userID, EditText et_title, String from
                     if(userID != null && !TextUtils.isEmpty(userID) && !prevAnswer.equals(holder.et_typeAnswer.getText().toString()) &&
                             !TextUtils.isEmpty(holder.et_typeAnswer.getText().toString())) {
-                        postUserAnswer postUserAnswer = new postUserAnswer(mContext, questionList.get(position).getID(), holder.et_typeAnswer.getText().toString()
+                        postUserAnswer postUserAnswer = new postUserAnswer(mContext, delegateList.get(position).getID(), holder.et_typeAnswer.getText().toString()
                                 , userID, holder.et_typeAnswer, "question");
                         postUserAnswer.execute(Api.POST_SETUSERANSWER);
                     }else if(userID == null || TextUtils.isEmpty(userID) ){
@@ -132,6 +137,6 @@ public class questionListAdapter extends RecyclerView.Adapter<questionListViewHo
 
     @Override
     public int getItemCount() {
-        return questionList.size();
+        return delegateList.size();
     }
 }

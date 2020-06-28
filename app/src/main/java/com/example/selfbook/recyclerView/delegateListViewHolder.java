@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.selfbook.R;
 
-public class questionListViewHolder extends RecyclerView.ViewHolder{
+public class delegateListViewHolder extends RecyclerView.ViewHolder{
 
     public TextView tv_question;
     public LinearLayout ll_dropDown;
@@ -22,7 +22,7 @@ public class questionListViewHolder extends RecyclerView.ViewHolder{
     public ImageButton bt_uploadAnswer;
     public EditText et_typeAnswer;
     public LinearLayout ll_questionItem;
-    public questionListViewHolder(@NonNull View itemView) {
+    public delegateListViewHolder(@NonNull View itemView) {
         super(itemView);
 
         tv_question = itemView.findViewById(R.id.tv_question);

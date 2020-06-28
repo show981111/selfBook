@@ -6,24 +6,17 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.selfbook.Data.templateTreeNode;
-import com.example.selfbook.Data.userAnswer;
-import com.example.selfbook.Data.userInfo;
-import com.example.selfbook.MyDraftActivity;
-import com.example.selfbook.recyclerView.bookCoverAdapter;
+import com.example.selfbook.Data.Content;
 import com.example.selfbook.recyclerView.chapterListAdapter;
-import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
@@ -85,7 +78,7 @@ public class fetchTemplateContent extends AsyncTask<String, Void, templateTreeNo
 
             int tempCode = Job.getInt("templateCode");
             String tempName = Job.getString("templateName");
-            userAnswer templateInfo = new userAnswer(tempCode,tempName,null,null);//ID,name,hint,answer
+            Content templateInfo = new Content(tempCode,tempName,null,null, 0);//ID,name,hint,answer
             templateTree = new templateTreeNode(templateInfo);// 먼저 템플릿을 넣어
 
             JSONArray chapterArray = Job.getJSONArray("templateChildren");// 그 템플릿의 자식인 챕터가 들어옴
@@ -96,43 +89,73 @@ public class fetchTemplateContent extends AsyncTask<String, Void, templateTreeNo
                 JSONObject chapterObject = chapterArray.getJSONObject(j);
                 int chapCode = chapterObject.getInt("chapterCode");
                 String chapName =chapterObject.getString("chapterName");
-                userAnswer chapterInfo = new userAnswer(chapCode,chapName,null,null);
+                Content chapterInfo = new Content(chapCode,chapName,null,null, 0);
 
                 templateTreeNode chapterTree = new templateTreeNode(chapterInfo);
-                JSONArray questionArray = chapterObject.getJSONArray("chapterChildren");
-//                Log.d("fetchTemplate", questionArray.toString());
-
+                JSONArray delegateArray = chapterObject.getJSONArray("chapterChildren");
+                //Log.d("fetchTemplate", delegateArray.toString());
+                Log.d("fetchTemplate", String.valueOf(chapCode));
                 int isFull = 1;
-                for(int k = 0; k < questionArray.length(); k++)//get all child Question
+                for(int k = 0; k < delegateArray.length(); k++)//get all child Delegate
                 {
-                    JSONObject questionObject = questionArray.getJSONObject(k);
+                    JSONObject delegateObject = delegateArray.getJSONObject(k);
 
-                    if(questionObject.has("questionCode")  ) {
-                        int questionCode = questionObject.getInt("questionCode");
-                        String questionName = questionObject.getString("questionName");
-                        String hint = questionObject.getString("hint");
-                        String answer = questionObject.getString("answer");
-                        Log.d("chapterAnswer", answer + questionCode);
-                        if(answer != null && !TextUtils.isEmpty(answer) && !answer.equals("null")){
-                            Log.d("chapterAnswer", "full");
+                    if(delegateObject.has("delegateCode")  ) {
+                        int delegateCode = delegateObject.getInt("delegateCode");
+                        String delegateName = delegateObject.getString("delegateName");
+                        String delegateHint = delegateObject.getString("delegateHint");
+                        String delegateAnswer = delegateObject.getString("delegateAnswer");
+                        //Log.d("fetchTemplate",  String.valueOf(delegateCode));
+                        if(delegateAnswer != null && !TextUtils.isEmpty(delegateAnswer) && !delegateAnswer.equals("null")){
+                           // Log.d("delegateAnswer", "full");
                             isFull = isFull * 1;
                         }else{
                             isFull = 0;
                         }
-                        userAnswer questionInfo = new userAnswer(questionCode, questionName, hint, answer);
-                        templateTreeNode questionTree = new templateTreeNode(questionInfo);
+                        Content delegateInfo = new Content(delegateCode, delegateName, delegateHint, delegateAnswer,0);
+                        templateTreeNode delegateTree = new templateTreeNode(delegateInfo);
 
-                        chapterTree.addChild(questionTree);
+                        chapterTree.addChild(delegateTree);
+                        JSONArray detailArray = delegateObject.getJSONArray("delegateChildren");
 
+                        Log.d("fetchTemplateDelegate", String.valueOf(delegateCode));
+                        int isDetailFull = 1;
+                        for(int l = 0; l < detailArray.length(); l++)//get detail question
+                        {
+                            JSONObject detailObject = detailArray.getJSONObject(l);
+                            //Log.d("fetchTemplateDetail", "dsa");
+                            if(detailObject.has("detailCode") ) {
+                                int detailCode = detailObject.getInt("detailCode");
+                                String detailName = detailObject.getString("detailName");
+                                String detailHint = detailObject.getString("detailHint");
+                                String detailAnswer = detailObject.getString("detailAnswer");
+                                Log.d("fetchTemplateDetail", String.valueOf(detailCode));
+                                if(detailAnswer != null && !TextUtils.isEmpty(detailAnswer) && !detailAnswer.equals("null")){
+                                    Log.d("delegateAnswer", "full");
+                                    isDetailFull = isDetailFull * 1;
+                                }else{
+                                    isDetailFull = 0;
+                                }
+                                Content detailInfo = new Content(detailCode, detailName, detailHint, detailAnswer,0);
+                                templateTreeNode detailTree = new templateTreeNode(detailInfo);
+                                delegateTree.addChild(detailTree);
+                            }
+                        }
+                        if(isDetailFull == 1)
+                        {
+                            isFull = isFull * 1;
+                        }else{
+                            isFull = 0;
+                        }
                         //Log.d("fetchTemplate", "questionArray" + questionCode);
                     }
                 }
                 Log.d("chapterAnswer", "--------------------");
-                if(isFull == 1)
+                if(isFull == 1 )
                 {
                     chapterTree.getData().setHint("full");
                     isTemplateFull = isTemplateFull * 1;
-                    Log.d("chap", "full"+chapterTree.getData().getID());
+                    //Log.d("chap", "full"+chapterTree.getData().getID());
                 }else{
                     isTemplateFull = 0;
                 }
@@ -141,7 +164,7 @@ public class fetchTemplateContent extends AsyncTask<String, Void, templateTreeNo
             if(isTemplateFull == 1)
             {
                 templateTree.getData().setHint("full");
-                Log.d("chap", "full Temp"+templateTree.getData().getID());
+                //Log.d("chap", "full Temp"+templateTree.getData().getID());
             }
 
 
@@ -175,6 +198,7 @@ public class fetchTemplateContent extends AsyncTask<String, Void, templateTreeNo
 //            }
 //        }
         //Log.d("fetchTemplate", templateTreeNode.ge);
+
         chapterListAdapter myChapterAdapter = new chapterListAdapter(mContext, templateTreeNode);
         Log.d("chapAdater", "CALLED");
         myChapterAdapter.notifyDataSetChanged();

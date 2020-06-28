@@ -1,21 +1,20 @@
 package com.example.selfbook.getData;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.selfbook.Data.Content;
 import com.example.selfbook.Data.templateTreeNode;
-import com.example.selfbook.recyclerView.chapterListAdapter;
+import com.example.selfbook.DelegateActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
@@ -23,28 +22,31 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class fetchDelegateList extends AsyncTask<String, Void, templateTreeNode> {
+public class fetchDelegateList extends AsyncTask<String, Void, ArrayList<Content> > {
 
     private String userID;
     private int templateCode;
+    private int chapterCode;
     private Context mContext;
-    private RecyclerView rv_chapter;
 
-    private templateTreeNode templateRoot;
+    public templateTreeNode chapterNode;
 
-//    private ArrayList<Content> chapterList = new ArrayList<>();
+    private ArrayList<Content> delegateArrayList = new ArrayList<>();
 
-    public fetchDelegateList(String userID, int templateCode, Context mContext, RecyclerView rv_chapter) {
+
+
+    public fetchDelegateList(String userID, int templateCode, int chapterCode, Context mContext, templateTreeNode chapterNode) {
         this.userID = userID;
         this.templateCode = templateCode;
+        this.chapterCode = chapterCode;
         this.mContext = mContext;
-        this.rv_chapter = rv_chapter;
-        Content template = new Content(templateCode, null, null, null, 0 );
-        templateRoot = new templateTreeNode(template);
+        this.chapterNode = chapterNode;
+        Log.d("fetchDelegateList", userID);
+        Log.d("fetchDelegateList", String.valueOf(chapterCode));
     }
 
     @Override
-    protected templateTreeNode doInBackground(String... strings) {
+    protected ArrayList<Content> doInBackground(String... strings) {
         String url = strings[0];
 
 
@@ -52,7 +54,7 @@ public class fetchDelegateList extends AsyncTask<String, Void, templateTreeNode>
 
         RequestBody formBody = new FormBody.Builder()
                 .add("userID", userID)
-                .add("templateCode", String.valueOf(templateCode))
+                .add("chapterCode", String.valueOf(chapterCode))
                 .build();
 
 
@@ -65,30 +67,35 @@ public class fetchDelegateList extends AsyncTask<String, Void, templateTreeNode>
 
         try {
             responses = okHttpClient.newCall(request).execute();
-            Log.d("fetchChapter", "res");
+            Log.d("fetchDelegateList", "res");
         } catch (IOException e) {
             e.printStackTrace();
-            Log.d("fetchChapter", "IOE");
+            Log.d("fetchDelegateList", "IOE");
             return null;
         }
 
         String jsonData = null;
+
         try {
             jsonData = responses.body().string();
-            JSONArray chapterArray = new JSONArray(jsonData);
-
-            for(int i = 0; i < chapterArray.length(); i++)
+            //Log.d("fetchDelegateList", jsonData);
+            JSONArray delegateArray = new JSONArray(jsonData);
+            delegateArrayList.clear();
+            for(int i = 0; i < delegateArray.length(); i++)
             {
-                JSONObject chapterObject = chapterArray.getJSONObject(i);
-                int chapCode = chapterObject.getInt("chapterCode");
-                String chapName =chapterObject.getString("chapterName");
-                int status = chapterObject.getInt("status");
-                Content content = new Content(chapCode, chapName,null, null ,status);
-                templateTreeNode Achapter = new templateTreeNode(content);
-                templateRoot.addChild(Achapter);
+                JSONObject delegateObject = delegateArray.getJSONObject(i);
+                int delegateCode = delegateObject.getInt("delegateCode");
+                String delegateName =delegateObject.getString("delegateName");
+                String delegateHint =delegateObject.getString("delegateHint");
+                String delegateAnswer =delegateObject.getString("delegateAnswer");
+                int status = delegateObject.getInt("status");
+                Content content = new Content(delegateCode, delegateName,delegateHint, delegateAnswer ,status);
+                templateTreeNode delegate = new templateTreeNode(content);
+                delegateArrayList.add(content);
+                chapterNode.addChild(delegate);
 
             }
-            return templateRoot;
+            return delegateArrayList;
         } catch (IOException | JSONException e) {
             e.printStackTrace();
             return null;
@@ -96,13 +103,12 @@ public class fetchDelegateList extends AsyncTask<String, Void, templateTreeNode>
     }
 
     @Override
-    protected void onPostExecute(templateTreeNode Contents) {
-        super.onPostExecute(Contents);
+    protected void onPostExecute(ArrayList<Content> delegateArrayList) {
+        super.onPostExecute(delegateArrayList);
 
-        chapterListAdapter myChapterAdapter = new chapterListAdapter(mContext, Contents);
-        Log.d("chapAdater", "CALLED");
-        myChapterAdapter.notifyDataSetChanged();
-        rv_chapter.setLayoutManager(new GridLayoutManager(mContext, 3));
-        rv_chapter.setAdapter(myChapterAdapter);
+        Intent intent = new Intent(mContext, DelegateActivity.class);
+        intent.putExtra("templateCode",templateCode);
+        intent.putParcelableArrayListExtra("delegateArray",delegateArrayList );
+        mContext.startActivity(intent);
     }
 }

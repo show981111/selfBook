@@ -17,6 +17,7 @@ import android.widget.EditText;
 
 import com.example.selfbook.Data.Content;
 import com.example.selfbook.api.Api;
+import com.example.selfbook.getData.fetchDetailList;
 import com.example.selfbook.getData.postUserAnswer;
 import com.example.selfbook.helper.MyButtonClickListener;
 import com.example.selfbook.helper.mySwipeHelper;
@@ -28,7 +29,7 @@ import java.util.List;
 
 import static com.example.selfbook.MainActivity.userID;
 
-public class QuestionActivity extends AppCompatActivity {
+public class DelegateActivity extends AppCompatActivity {
 
     private ArrayList<Content> delegateArray = new ArrayList<>();
     private delegateListAdapter delegateListAdapter;
@@ -57,14 +58,14 @@ public class QuestionActivity extends AppCompatActivity {
                 switch (menuItem.getItemId())
                 {
                     case R.id.home :
-                        Intent intent = new Intent(QuestionActivity.this, MainActivity.class);
-                        QuestionActivity.this.startActivity(intent);
+                        Intent intent = new Intent(DelegateActivity.this, MainActivity.class);
+                        DelegateActivity.this.startActivity(intent);
                         break;
                     case R.id.overview:
                         if(templateCode != -1) {
-                            Intent intentOverView = new Intent(QuestionActivity.this, OverViewActivity.class);
+                            Intent intentOverView = new Intent(DelegateActivity.this, OverViewActivity.class);
                             intentOverView.putExtra("templateCode", templateCode);
-                            QuestionActivity.this.startActivity(intentOverView);
+                            DelegateActivity.this.startActivity(intentOverView);
                         }
                         break;
                 }
@@ -81,6 +82,7 @@ public class QuestionActivity extends AppCompatActivity {
                     @Override
                     public void onClick(int pos) {
                         Log.d("skip", "clickled");
+                        //자식을 모두 캔슬시켜야 함 여기서 //
                         //Toast.makeText(getApplicationContext(), "delete Click"+pos, Toast.LENGTH_SHORT).show();
                         if(rv_questionList.findViewHolderForAdapterPosition(pos) != null) {
                             Log.d("skip", "clickled");
@@ -93,6 +95,17 @@ public class QuestionActivity extends AppCompatActivity {
                             et_typeAnswer.setText("skipped");
                         }
                         delegateListAdapter.notifyDataSetChanged();
+                    }
+                }));
+                buffer.add(new MyButton(getApplicationContext(), "detail", 60, 0, Color.parseColor("#FF9502"), new MyButtonClickListener() {
+                    @RequiresApi(api = Build.VERSION_CODES.CUPCAKE)
+                    @Override
+                    public void onClick(int pos) {
+                        //String userID, int delegateCode, Context mContext, RecyclerView rv_detail, templateTreeNode delegateNode
+                        fetchDetailList fetchDetailList = new fetchDetailList(userID, delegateArray.get(pos).getID(),getApplicationContext(), templateCode);
+                        fetchDetailList.execute(Api.GET_DETAILLIST);
+                        Log.d("skip", "clickledDetail");
+
                     }
                 }));
 
