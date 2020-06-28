@@ -75,7 +75,7 @@ public abstract class mySwipeHelper extends ItemTouchHelper.SimpleCallback {
         @Override
         public boolean onTouch(View view, MotionEvent motionEvent) {
             if(swipePosition < 0) return false;
-            Log.d("ini", "onTouch");
+            //Log.d("ini", "onTouch");
             Point point = new Point( (int) motionEvent.getRawX(), (int) motionEvent.getRawY());
 
             RecyclerView.ViewHolder swipeViewHolder = recyclerView.findViewHolderForAdapterPosition(swipePosition);
@@ -87,21 +87,21 @@ public abstract class mySwipeHelper extends ItemTouchHelper.SimpleCallback {
                     motionEvent.getAction() == MotionEvent.ACTION_UP ||
                     motionEvent.getAction() == MotionEvent.ACTION_MOVE)
             {
-                Log.d("ini", "onTouchInside"+motionEvent.getAction() + " d " + MotionEvent.ACTION_DOWN + " Mo" + MotionEvent.ACTION_UP);
+                //Log.d("ini", "onTouchInside"+motionEvent.getAction() + " d " + MotionEvent.ACTION_DOWN + " Mo" + MotionEvent.ACTION_UP);
                 if(rect.top < point.y && rect.bottom > point.y) {
                     //Log.d("ini", "onTOuchCalled");
                     Boolean ans = gestureDetector.onTouchEvent(motionEvent);
 
                     if(motionEvent.getAction() == MotionEvent.ACTION_UP){
-                        Log.d("ini","acgtion up");
+                        //Log.d("ini","acgtion up");
                         for(MyButton button : buttonList)
                         {
-                            Log.d("ini", "buttonList");
+                            //Log.d("ini", "buttonList");
                             if(button.onClick(motionEvent.getX(),motionEvent.getY()))
                                 break;
                         }
                     }
-                    Log.d("ini", ans + "detect");
+                    //Log.d("ini", ans + "detect");
                 }
                 else{
                     removeQueue.add(swipePosition);
@@ -243,7 +243,7 @@ public abstract class mySwipeHelper extends ItemTouchHelper.SimpleCallback {
         private Resources resources;
 
         public MyButton(Context context, String text, int textSIze, int imageResId, int color, MyButtonClickListener listener) {
-            Log.d("ini", "constructed");
+           // Log.d("ini", "constructed");
             this.text = text;
             this.imageResId = imageResId;
             this.textSIze = textSIze;
@@ -257,7 +257,7 @@ public abstract class mySwipeHelper extends ItemTouchHelper.SimpleCallback {
 
         public boolean onClick(float x , float y)
         {
-            Log.d("ini", "onCLick Mybutton");
+            //Log.d("ini", "onCLick Mybutton");
             if(clickRegion != null && clickRegion.contains(x,y))
             {
                 listener.onClick(pos);

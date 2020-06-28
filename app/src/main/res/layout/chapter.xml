@@ -16,18 +16,20 @@
             android:layout_height="110dp"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
+            android:backgroundTint="@color/grey"
             android:background="@drawable/ic_folder"
             />
 
         <TextView
             android:id ="@+id/tv_chapter"
             android:textStyle="bold"
+            android:fontFamily="@font/frommomgamsung"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="CH.1"
-            android:textSize="22sp"
+            android:textSize="30sp"
             />
 
     </RelativeLayout>

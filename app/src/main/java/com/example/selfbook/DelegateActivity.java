@@ -19,6 +19,7 @@ import com.example.selfbook.Data.Content;
 import com.example.selfbook.api.Api;
 import com.example.selfbook.getData.fetchDetailList;
 import com.example.selfbook.getData.postUserAnswer;
+import com.example.selfbook.getData.skipDelegateAndDetail;
 import com.example.selfbook.helper.MyButtonClickListener;
 import com.example.selfbook.helper.mySwipeHelper;
 import com.example.selfbook.recyclerView.delegateListAdapter;
@@ -85,16 +86,15 @@ public class DelegateActivity extends AppCompatActivity {
                         //자식을 모두 캔슬시켜야 함 여기서 //
                         //Toast.makeText(getApplicationContext(), "delete Click"+pos, Toast.LENGTH_SHORT).show();
                         if(rv_questionList.findViewHolderForAdapterPosition(pos) != null) {
-                            Log.d("skip", "clickled");
-                            View itemView = rv_questionList.findViewHolderForAdapterPosition(pos).itemView;
-                            EditText et_typeAnswer = itemView.findViewById(R.id.et_typeAnswer);
-                            postUserAnswer postUserAnswer = new postUserAnswer(getApplicationContext(), delegateArray.get(pos).getID(), "skipped"
-                                    , userID, et_typeAnswer, "question");
-                            postUserAnswer.execute(Api.POST_SETUSERANSWER);
-                            itemView.findViewById(R.id.ll_questionItem).setBackgroundColor(Color.rgb(190, 185, 201));
-                            et_typeAnswer.setText("skipped");
+                            Log.d("skip", "clickled"+ pos);
+                            //View itemView = rv_questionList.findViewHolderForAdapterPosition(pos).itemView;
+                            //EditText et_typeAnswer = itemView.findViewById(R.id.et_typeAnswer);
+                            skipDelegateAndDetail skipDelegateAndDetail = new skipDelegateAndDetail(getApplicationContext(), delegateArray.get(pos).getID(),
+                                                                                                    userID,delegateArray, pos, delegateListAdapter);
+                            skipDelegateAndDetail.execute(Api.POST_SKIPDELEGATE);
+
                         }
-                        delegateListAdapter.notifyDataSetChanged();
+
                     }
                 }));
                 buffer.add(new MyButton(getApplicationContext(), "detail", 60, 0, Color.parseColor("#FF9502"), new MyButtonClickListener() {

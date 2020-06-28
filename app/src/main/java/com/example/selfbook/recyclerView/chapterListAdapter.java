@@ -54,13 +54,10 @@ public class chapterListAdapter extends RecyclerView.Adapter<chapterListViewHold
             Log.d("chapter", ""+chapnum);
             //holder.bookDescription.setText(String.valueOf(templateItem.getBookPrice()) + "원");
             holder.draftNumber.setText("CH."+chapnum);
-            if(chapterList.get(position).getData().getHint() != null)
-            {
-                if(chapterList.get(position).getData().getStatus() == 1){
-                    //holder.draftImage.setColorFilter(Color.BLACK);
-                    holder.draftImage.setBackgroundTintList(ContextCompat.getColorStateList(mContext, R.color.colorAccent));
+            if(chapterList.get(position).getData().getStatus() == 1){
+                //holder.draftImage.setColorFilter(Color.BLACK);
+                holder.draftImage.setBackgroundTintList(ContextCompat.getColorStateList(mContext, R.color.warmColor));
 
-                }
             }
 
 

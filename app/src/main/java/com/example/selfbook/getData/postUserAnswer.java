@@ -9,7 +9,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.selfbook.Data.Content;
+import com.example.selfbook.recyclerView.delegateListAdapter;
+
 import java.io.IOException;
+import java.util.ArrayList;
 
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
@@ -27,6 +31,9 @@ public class postUserAnswer extends AsyncTask<String, Void, String> {
     private String input;
     private String userID;
     private String from;
+    private ArrayList<Content> detailList;
+    private delegateListAdapter delegateListAdapter;
+    private int pos;
 
     public postUserAnswer(Context context, int key, String input, String userID, EditText et_title, String from) {
         this.context = context;
@@ -36,6 +43,18 @@ public class postUserAnswer extends AsyncTask<String, Void, String> {
         this.et_title = et_title;
         this.from = from;
 
+    }
+
+    public postUserAnswer(Context context, int key, String input, String userID, ArrayList<Content> detailList,
+                          String from, delegateListAdapter delegateListAdapter, int pos) {
+        this.context = context;
+        this.key = key;
+        this.input = input;
+        this.userID = userID;
+        this.detailList = detailList;
+        this.from = from;
+        this.delegateListAdapter = delegateListAdapter;
+        this.pos = pos;
     }
 
     @Override
@@ -78,20 +97,26 @@ public class postUserAnswer extends AsyncTask<String, Void, String> {
         Log.d("postUserAnswer", s);
         if(s.equals("success"))
         {
-            if( et_title != null)
-            {
-                et_title.setBackgroundColor(Color.rgb(190, 185, 201));
-                Toast toast = Toast.makeText(context,"등록하였습니다",Toast.LENGTH_SHORT);
-                toast.setGravity(Gravity.CENTER, 0, 0);
-                toast.show(); // center align
 
-            }else{
-                Toast toast = Toast.makeText(context,"null?",Toast.LENGTH_SHORT);
-                toast.setGravity(Gravity.CENTER, 0, 0);
-                toast.show(); // center align
+            if(et_title != null) {
+                et_title.setBackgroundColor(Color.rgb(190, 185, 201));
+
+            }else if(detailList != null && delegateListAdapter != null){
+                detailList.get(pos).setAnswer("skipped");
+                detailList.get(pos).setStatus(1);
+                delegateListAdapter.notifyItemChanged(pos);
             }
+
+            Toast toast = Toast.makeText(context, "등록하였습니다", Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            toast.show(); // center align
+
         }else if(s.equals("redundant")){
             Toast toast = Toast.makeText(context,"변경 내용이 없습니다!",Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            toast.show(); // center align
+        }else{
+            Toast toast = Toast.makeText(context,"실패하였습니다!",Toast.LENGTH_SHORT);
             toast.setGravity(Gravity.CENTER, 0, 0);
             toast.show(); // center align
         }

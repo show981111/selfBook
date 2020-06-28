@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,7 +32,7 @@ public class delegateListAdapter extends RecyclerView.Adapter<delegateListViewHo
     private templateTreeNode templateTree;
     private Activity activity;
     private String prevAnswer = "";
-    private ArrayList<Content> delegateList;
+    private ArrayList<Content> delegateList = new ArrayList<>();
 
     public delegateListAdapter(Context mContext, ArrayList<Content> delegateList) {
         this.mContext = mContext;
@@ -67,6 +68,7 @@ public class delegateListAdapter extends RecyclerView.Adapter<delegateListViewHo
             }
 
             if(delegateList.get(position).getStatus() == 1){
+                Log.d("skip",delegateList.get(position).getName() + " is full");
                 holder.ll_questionItem.setBackgroundColor(Color.rgb(190, 185, 201));
             }
             if(delegateList.get(position).getHint() != null && !TextUtils.isEmpty(delegateList.get(position).getHint())
@@ -120,7 +122,9 @@ public class delegateListAdapter extends RecyclerView.Adapter<delegateListViewHo
                         toast.setGravity(Gravity.CENTER, 0, 0);
                         toast.show();
                     }else {
-
+                        Toast toast = Toast.makeText(mContext,"오류가 발생했습니다!",Toast.LENGTH_SHORT);
+                        toast.setGravity(Gravity.CENTER, 0, 0);
+                        toast.show();
                     }
                 }
             });

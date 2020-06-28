@@ -15,4 +15,5 @@ public class Api {
     public static final String GET_CHAPTERLIST = BASE_URL + "/getChapter.php";
     public static final String GET_DELEGATELIST = BASE_URL + "/getDelegate.php";
     public static final String GET_DETAILLIST = BASE_URL + "/getDetail.php";
+    public static final String POST_SKIPDELEGATE = BASE_URL + "/skipDelegateAndDetail.php";
 }
