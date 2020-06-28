@@ -1,12 +1,11 @@
 package com.example.selfbook;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
@@ -14,17 +13,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.Toast;
 
-import com.example.selfbook.Data.userAnswer;
+import com.example.selfbook.Data.Content;
 import com.example.selfbook.api.Api;
 import com.example.selfbook.getData.postUserAnswer;
 import com.example.selfbook.helper.MyButtonClickListener;
 import com.example.selfbook.helper.mySwipeHelper;
-import com.example.selfbook.recyclerView.questionListAdapter;
+import com.example.selfbook.recyclerView.delegateListAdapter;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
@@ -34,8 +30,8 @@ import static com.example.selfbook.MainActivity.userID;
 
 public class QuestionActivity extends AppCompatActivity {
 
-    private ArrayList<userAnswer> questionArray = new ArrayList<>();
-    private questionListAdapter questionListAdapter;
+    private ArrayList<Content> delegateArray = new ArrayList<>();
+    private delegateListAdapter delegateListAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,15 +40,15 @@ public class QuestionActivity extends AppCompatActivity {
         final RecyclerView rv_questionList = findViewById(R.id.rv_question);
         Intent intent = getIntent();
         templateCode = intent.getIntExtra("templateCode", -1);
-        questionArray = intent.getParcelableArrayListExtra("questionArray");
+        delegateArray = intent.getParcelableArrayListExtra("delegateArray");
 
 //        guideBookAdapter = new bookCoverAdapter<templateInfo>(context, templateInfoArrayList);
 //        rv_guideBook.setLayoutManager(new LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false));
 //        rv_guideBook.setAdapter(guideBookAdapter);
 
-        questionListAdapter = new questionListAdapter(this, questionArray);
+        delegateListAdapter = new delegateListAdapter(this, delegateArray);
         rv_questionList.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false));
-        rv_questionList.setAdapter(questionListAdapter);
+        rv_questionList.setAdapter(delegateListAdapter);
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_myDraftNavi);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -81,6 +77,7 @@ public class QuestionActivity extends AppCompatActivity {
             public void instantiateMyButton(RecyclerView.ViewHolder viewHolder, List<mySwipeHelper.MyButton> buffer) {
                 Log.d("ini", "ini");
                 buffer.add(new MyButton(getApplicationContext(), "skip", 60, 0, Color.parseColor("#266ee0"), new MyButtonClickListener() {
+                    @RequiresApi(api = Build.VERSION_CODES.CUPCAKE)
                     @Override
                     public void onClick(int pos) {
                         Log.d("skip", "clickled");
@@ -89,13 +86,13 @@ public class QuestionActivity extends AppCompatActivity {
                             Log.d("skip", "clickled");
                             View itemView = rv_questionList.findViewHolderForAdapterPosition(pos).itemView;
                             EditText et_typeAnswer = itemView.findViewById(R.id.et_typeAnswer);
-                            postUserAnswer postUserAnswer = new postUserAnswer(getApplicationContext(), questionArray.get(pos).getID(), "skipped"
+                            postUserAnswer postUserAnswer = new postUserAnswer(getApplicationContext(), delegateArray.get(pos).getID(), "skipped"
                                     , userID, et_typeAnswer, "question");
                             postUserAnswer.execute(Api.POST_SETUSERANSWER);
                             itemView.findViewById(R.id.ll_questionItem).setBackgroundColor(Color.rgb(190, 185, 201));
                             et_typeAnswer.setText("skipped");
                         }
-                        questionListAdapter.notifyDataSetChanged();
+                        delegateListAdapter.notifyDataSetChanged();
                     }
                 }));
 

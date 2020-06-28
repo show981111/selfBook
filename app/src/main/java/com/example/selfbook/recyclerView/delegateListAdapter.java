@@ -3,29 +3,23 @@ package com.example.selfbook.recyclerView;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
-import android.os.Build;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.selfbook.Data.templateTreeNode;
-import com.example.selfbook.Data.userAnswer;
+import com.example.selfbook.Data.Content;
 import com.example.selfbook.R;
 import com.example.selfbook.api.Api;
 import com.example.selfbook.getData.postUserAnswer;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import static android.content.Context.INPUT_METHOD_SERVICE;
 import static com.example.selfbook.MainActivity.userID;
@@ -37,9 +31,9 @@ public class questionListAdapter extends RecyclerView.Adapter<questionListViewHo
     private templateTreeNode templateTree;
     private Activity activity;
 
-    private ArrayList<userAnswer> questionList;
+    private ArrayList<Content> questionList;
 
-    public questionListAdapter(Context mContext, ArrayList<userAnswer> questionList) {
+    public questionListAdapter(Context mContext, ArrayList<Content> questionList) {
         this.mContext = mContext;
         this.questionList = questionList;
         activity = (Activity) mContext;
