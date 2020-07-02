@@ -96,10 +96,7 @@ public class bookCoverAdapter<T extends viewBook> extends RecyclerView.Adapter<b
                         Log.d("login",userPurchasesArrayList.get(position).getUserBookName());
                         intent.putExtra("userPurchaseInfo", userPurchasesArrayList.get(position));
                         mContext.startActivity(intent);
-                        //여기서 TEMPLATECONTENT fetch 해줄것!
-//                        fetchTemplateContent fetchTemplateContent = new fetchTemplateContent(userPurchasesArrayList.get(position).getUserID() ,
-//                                userPurchasesArrayList.get(position).getUserTemplateCode(), mContext , rv_chapterList );
-//                        fetchTemplateContent.execute(Api.GET_getTemplateContent);
+
                     }
                 });
                 //holder.bookDescription.setText(userPurchaseItem.getStatus());

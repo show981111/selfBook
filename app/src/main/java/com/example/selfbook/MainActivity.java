@@ -31,28 +31,34 @@ public class MainActivity extends AppCompatActivity {
 
     public static String userID = "";
     public static String userName = "";
-
+    BottomNavigationView bottomNavigationView;
+    RecyclerView rv_myDraft;
+    TextView emptyMyDraft;
+    int onCreateCalled = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //ActionBar bar = getActionBar();
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.warmColor)));
-        getSupportActionBar().setTitle("나만의 자서전 만들기:)");
+        //getSupportActionBar().setTitle("나만의 자서전 만들기:)");
 
         RecyclerView rv_guideBook = findViewById(R.id.rv_guideBook);
         fetchGuideBook fetchGuideBook = new fetchGuideBook(this,rv_guideBook);
         fetchGuideBook.execute(Api.GET_TEMPLATEINFO);
         ArrayList<userInfo> userDataArrayList = new ArrayList<>();
-        RecyclerView rv_myDraft = findViewById(R.id.rv_myDraft);
-        TextView emptyMyDraft = findViewById(R.id.tv_emptyMyDraft);
+        rv_myDraft = findViewById(R.id.rv_myDraft);
+        emptyMyDraft = findViewById(R.id.tv_emptyMyDraft);
+        bottomNavigationView = findViewById(R.id.bottom_navigation);
 
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
-
-        if(userID != null && !TextUtils.isEmpty(userID) && userName != null && !TextUtils.isEmpty(userName)){
+        onCreateCalled = 1;
+        //Log.d("fetchMyDraftOn",String.valueOf(onCreateCalled));
+        if (userID != null && !TextUtils.isEmpty(userID) && userName != null && !TextUtils.isEmpty(userName)) {
+            //Log.d("fetchMyDraft", "Oncalled");
             bottomNavigationView.getMenu().findItem(R.id.login).setTitle(userName);
-            fetchMyDraft fetchMyDraft = new fetchMyDraft(userID, rv_myDraft,emptyMyDraft,this);
+            fetchMyDraft fetchMyDraft = new fetchMyDraft(userID, rv_myDraft, emptyMyDraft, this);
             fetchMyDraft.execute(Api.GET_USERINFO);
+        } else {
+            emptyMyDraft.setText("로그인을 해주세요!");
         }
 
         //login Selected
@@ -108,6 +114,30 @@ public class MainActivity extends AppCompatActivity {
             }else{
                 Toast.makeText(MainActivity.this,"다시한번 시도해주세요!",Toast.LENGTH_LONG).show();
             }
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        onCreateCalled = 0;
+//        Log.d("fetchMyDraftPause",String.valueOf(onCreateCalled));
+//        Log.d("fetchMyDraft", "pause");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //Log.d("fetchMyDraftResume",String.valueOf(onCreateCalled));
+        if(rv_myDraft != null && emptyMyDraft != null && onCreateCalled == 0) {
+            if (userID != null && !TextUtils.isEmpty(userID) && userName != null && !TextUtils.isEmpty(userName)) {
+                bottomNavigationView.getMenu().findItem(R.id.login).setTitle(userName);
+                fetchMyDraft fetchMyDraft = new fetchMyDraft(userID, rv_myDraft, emptyMyDraft, this);
+                fetchMyDraft.execute(Api.GET_USERINFO);
+            } else {
+                emptyMyDraft.setText("로그인을 해주세요!");
+            }
+            Log.d("fetchMyDraft", "recalled");
         }
     }
 }

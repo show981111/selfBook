@@ -1,5 +1,6 @@
 package com.example.selfbook.getData;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -35,7 +36,6 @@ public class fetchMyDraft extends AsyncTask<String, Void, userInfo[]> {
 
         private RecyclerView rv_myDraft;
         private TextView emptyMyDraft;
-
         private String from;
         public fetchMyDraft(String inputID, RecyclerView rv_myDraft, TextView emptyMyDraft, Context mContext) {
             this.inputID = inputID;
@@ -51,7 +51,13 @@ public class fetchMyDraft extends AsyncTask<String, Void, userInfo[]> {
             from = "login";
         }
 
-        @Override
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+
+    }
+
+    @Override
         protected userInfo[] doInBackground(String... strings) {
             String url = strings[0];
 
@@ -95,27 +101,6 @@ public class fetchMyDraft extends AsyncTask<String, Void, userInfo[]> {
         @Override
         protected void onPostExecute(userInfo[] client) {
             super.onPostExecute(client);
-            //Log.d("login", userDataArrayList.get(0).getUserName());
-//            for(userInfo userInfoItem : userDataArrayList)
-//            {
-//                if(userInfoItem.getUserTemplateCode() == 0)
-//                {
-//                    checkEmptyMyDraft = 1;
-//                }else{
-//                    checkEmptyMyDraft = 0;
-//                    break;
-//                }
-//            }
-//
-//            if(checkEmptyMyDraft == 1)
-//            {
-//                rv_myDraft.setVisibility(View.GONE);
-//            }else{
-//                emptyMyDraft.setVisibility(View.GONE);
-//                bookCoverAdapter<userInfo> myDraftAdapter = new bookCoverAdapter<userInfo>(this, userDataArrayList);
-//                rv_myDraft.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
-//                rv_myDraft.setAdapter(myDraftAdapter);
-//            }
             int checkEmptyMyDraft = 0;
             if(client != null && client.length > 0) {
                 for (userInfo item : client) {
@@ -146,6 +131,7 @@ public class fetchMyDraft extends AsyncTask<String, Void, userInfo[]> {
                 }
                 if(from.equals("login"))
                 {
+                    Log.d("fetchMyDraft",userDataArrayList.get(0).getUserBookName());
                     Intent intent = new Intent(mContext, MainActivity.class);
                     intent.putParcelableArrayListExtra("userDataArrayList",userDataArrayList);
                     mContext.startActivity(intent);

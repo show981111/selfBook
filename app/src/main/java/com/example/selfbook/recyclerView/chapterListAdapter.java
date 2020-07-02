@@ -1,5 +1,6 @@
 package com.example.selfbook.recyclerView;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
 import android.util.Log;
@@ -13,6 +14,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.selfbook.Data.templateTreeNode;
 import com.example.selfbook.Data.Content;
+import com.example.selfbook.DelegateActivity;
+import com.example.selfbook.DetailActivity;
+import com.example.selfbook.MyDraftActivity;
 import com.example.selfbook.R;
 import com.example.selfbook.api.Api;
 import com.example.selfbook.getData.fetchDelegateList;
@@ -47,13 +51,17 @@ public class chapterListAdapter extends RecyclerView.Adapter<chapterListViewHold
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onBindViewHolder(@NonNull chapterListViewHolder holder, final int position) {
+        //getSupportActionBar().setTitle("나만의 자서전 만들기:)");
+
         if(templateTree != null)
         {
             int chapnum = position + 1;
-
             Log.d("chapter", ""+chapnum);
             //holder.bookDescription.setText(String.valueOf(templateItem.getBookPrice()) + "원");
             holder.draftNumber.setText("CH."+chapnum);
+
+            //Activity activity = (Activity) mContext;
+            //activity.getActionBar().setTitle(chapnum + ". " + chapterList.get(position).getData().getName());
             if(chapterList.get(position).getData().getStatus() == 1){
                 //holder.draftImage.setColorFilter(Color.BLACK);
                 holder.draftImage.setBackgroundTintList(ContextCompat.getColorStateList(mContext, R.color.warmColor));
@@ -69,7 +77,7 @@ public class chapterListAdapter extends RecyclerView.Adapter<chapterListViewHold
                 delegateArrayList.clear();
                 Log.d("getDelegate",String.valueOf(chapterList.get(position).getData().getID()));
                 fetchDelegateList fetchDelegateList = new fetchDelegateList(userID, templateTree.getData().getID(),
-                        chapterList.get(position).getData().getID(),mContext, chapterList.get(position) );
+                        chapterList.get(position).getData().getID(),mContext, chapterList.get(position), position + 1 );
                 fetchDelegateList.execute(Api.GET_DELEGATELIST);
 
 

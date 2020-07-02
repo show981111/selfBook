@@ -2,6 +2,7 @@ package com.example.selfbook.getData;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.text.Html;
 import android.util.Log;

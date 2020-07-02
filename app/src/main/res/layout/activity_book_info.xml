@@ -39,62 +39,70 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:text="50000"
-                android:textSize="20sp"
+                android:textSize="13sp"
                 android:id = "@+id/tv_guideBookPrice"
                 />
             <TextView
                 android:id="@+id/tv_templateTitle"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="4dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text = "selfBook For Senior"
+                android:textStyle="bold"
+                android:fontFamily="@font/frommomgamsung"
                 android:layout_alignParentTop="true"
                 android:layout_toRightOf="@+id/iv_gideBook"
-                android:textSize="20sp"
+                android:textSize="25sp"
                 />
             <TextView
                 android:id="@+id/tv_authorIndicator"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="3dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text = "글쓴이 : "
+                android:fontFamily="@font/frommomgamsung"
                 android:layout_toRightOf="@+id/iv_gideBook"
                 android:layout_below="@+id/tv_templateTitle"
-                android:textSize="20sp"
+                android:textSize="25sp"
                 />
             <TextView
                 android:id="@+id/tv_authorName"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="3dp"
                 android:layout_marginLeft="5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text = "홍 길 동"
+                android:textStyle="bold"
+                android:fontFamily="@font/frommomgamsung"
                 android:layout_below="@+id/tv_templateTitle"
                 android:layout_toRightOf="@+id/tv_authorIndicator"
-                android:textSize="20sp"
+                android:textSize="25sp"
                 />
 
             <TextView
                 android:id="@+id/tv_madeDateIndicator"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="3dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@+id/iv_gideBook"
                 android:text="출판일 : "
-                android:textSize="20sp"
+                android:fontFamily="@font/frommomgamsung"
+                android:textSize="25sp"
                 android:layout_below="@+id/tv_authorIndicator"
                 />
 
             <TextView
                 android:id="@+id/tv_madeDate"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="3dp"
                 android:layout_marginLeft="5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text = "2020-06-04"
+                android:textStyle="bold"
+                android:fontFamily="@font/frommomgamsung"
                 android:layout_below="@+id/tv_authorName"
                 android:layout_toRightOf="@+id/tv_authorIndicator"
-                android:textSize="20sp"
+                android:textSize="25sp"
                 />
 
 

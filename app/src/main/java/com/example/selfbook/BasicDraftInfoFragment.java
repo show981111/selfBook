@@ -102,6 +102,7 @@ public class BasicDraftInfoFragment extends Fragment implements View.OnClickList
                 } catch (Exception e) {
                     // TODO: handle exception
                 }
+                userPurchaseInfo.setUserBookName(et_selfBookTitle.getText().toString());
                 postUserAnswer postUserAnswer = new postUserAnswer(getContext(),userPurchaseInfo.getUserTemplateCode(),et_selfBookTitle.getText().toString()
                         ,userPurchaseInfo.getUserID(),et_selfBookTitle,"setBookTitle");
                 postUserAnswer.execute(Api.POST_SETUSERANSWER);

@@ -28,19 +28,20 @@ public class fetchDelegateList extends AsyncTask<String, Void, ArrayList<Content
     private int templateCode;
     private int chapterCode;
     private Context mContext;
-
+    private int chapterNum;
     public templateTreeNode chapterNode;
 
     private ArrayList<Content> delegateArrayList = new ArrayList<>();
 
 
 
-    public fetchDelegateList(String userID, int templateCode, int chapterCode, Context mContext, templateTreeNode chapterNode) {
+    public fetchDelegateList(String userID, int templateCode, int chapterCode, Context mContext, templateTreeNode chapterNode, int chapterNum) {
         this.userID = userID;
         this.templateCode = templateCode;
         this.chapterCode = chapterCode;
         this.mContext = mContext;
         this.chapterNode = chapterNode;
+        this.chapterNum = chapterNum;
         Log.d("fetchDelegateList", userID);
         Log.d("fetchDelegateList", String.valueOf(chapterCode));
     }
@@ -105,9 +106,10 @@ public class fetchDelegateList extends AsyncTask<String, Void, ArrayList<Content
     @Override
     protected void onPostExecute(ArrayList<Content> delegateArrayList) {
         super.onPostExecute(delegateArrayList);
-
         Intent intent = new Intent(mContext, DelegateActivity.class);
         intent.putExtra("templateCode",templateCode);
+        intent.putExtra("chapterNum",chapterNum);
+        intent.putExtra("chapterName",chapterNode.getData().getName());
         intent.putParcelableArrayListExtra("delegateArray",delegateArrayList );
         mContext.startActivity(intent);
     }

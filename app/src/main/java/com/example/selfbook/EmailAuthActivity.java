@@ -96,23 +96,25 @@ public class EmailAuthActivity extends AppCompatActivity {
             }
         });
 
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_makeDraft);
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                switch (menuItem.getItemId())
-                {
-                    case R.id.home :
-                        Intent intent = new Intent(EmailAuthActivity.this, MainActivity.class);
-                        EmailAuthActivity.this.startActivity(intent);
-                        break;
-                    case R.id.makedoc:
-                        //원고 생성 url
-                        break;
-                }
-                return false;
-            }
-        });
+//        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+//        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+//            @Override
+//            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+//                switch (menuItem.getItemId())
+//                {
+//                    case R.id.home :
+//                        Intent intent = new Intent(EmailAuthActivity.this, MainActivity.class);
+//                        EmailAuthActivity.this.startActivity(intent);
+//                        break;
+//                    case R.id.login :
+//                        Intent intent1 = new Intent(EmailAuthActivity.this, LoginActivity.class);
+//                        EmailAuthActivity.this.startActivity(intent1);
+//                        break;
+//
+//                }
+//                return false;
+//            }
+//        });
 
     }
 

@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -34,6 +35,9 @@ public class DelegateActivity extends AppCompatActivity {
 
     private ArrayList<Content> delegateArray = new ArrayList<>();
     private delegateListAdapter delegateListAdapter;
+    private String chapterName;
+    private int chapterNum;
+    private String title = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,7 +46,15 @@ public class DelegateActivity extends AppCompatActivity {
         final RecyclerView rv_questionList = findViewById(R.id.rv_question);
         Intent intent = getIntent();
         templateCode = intent.getIntExtra("templateCode", -1);
+        chapterNum = intent.getIntExtra("chapterNum",-1);
+        chapterName = intent.getStringExtra("chapterName");
         delegateArray = intent.getParcelableArrayListExtra("delegateArray");
+
+        if(chapterNum != -1 && !TextUtils.isEmpty(chapterName)){
+            title = chapterNum + ". " + chapterName;
+            getSupportActionBar().setTitle(title);
+        }
+        //getSupportActionBar().setTitle(chapnum + ". " + chapterList.get(position).getData().getName());
 
 //        guideBookAdapter = new bookCoverAdapter<templateInfo>(context, templateInfoArrayList);
 //        rv_guideBook.setLayoutManager(new LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false));
@@ -102,7 +114,7 @@ public class DelegateActivity extends AppCompatActivity {
                     @Override
                     public void onClick(int pos) {
                         //String userID, int delegateCode, Context mContext, RecyclerView rv_detail, templateTreeNode delegateNode
-                        fetchDetailList fetchDetailList = new fetchDetailList(userID, delegateArray.get(pos).getID(),getApplicationContext(), templateCode);
+                        fetchDetailList fetchDetailList = new fetchDetailList(userID, delegateArray.get(pos).getID(),getApplicationContext(), templateCode, pos, title);
                         fetchDetailList.execute(Api.GET_DETAILLIST);
                         Log.d("skip", "clickledDetail");
 

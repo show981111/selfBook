@@ -14,8 +14,6 @@ import android.util.Log;
 import android.view.MenuItem;
 
 import com.example.selfbook.Data.userInfo;
-import com.example.selfbook.api.Api;
-import com.example.selfbook.getData.fetchTemplateContent;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.tabs.TabLayout;
 
@@ -30,9 +28,8 @@ public class MyDraftActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         userPurchaseInfo = intent.getParcelableExtra("userPurchaseInfo");
-        Log.d("mydraft",userPurchaseInfo.getUserBookName());
         Fragment[] arrFragments = new Fragment[2];
-
+        getSupportActionBar().setTitle("내 원고");
         arrFragments[0] = BasicDraftInfoFragment.newInstance(userPurchaseInfo);
         arrFragments[1] = ChapterDraftFragment.newInstance(userPurchaseInfo);
 

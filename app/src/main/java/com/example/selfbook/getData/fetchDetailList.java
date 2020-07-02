@@ -36,17 +36,21 @@ public class fetchDetailList extends AsyncTask<String, Void, ArrayList<Content> 
     private int delegateCode;
     private Context mContext;
     private int templateCode;
+    private int pos;
+    private String title;
     //private RecyclerView rv_detail;
 
     //public templateTreeNode delegateNode;
 
     private ArrayList<Content> detailList = new ArrayList<>();
 
-    public fetchDetailList(String userID, int delegateCode, Context mContext, int templateCode) {
+    public fetchDetailList(String userID, int delegateCode, Context mContext, int templateCode, int pos, String title) {
         this.userID = userID;
         this.delegateCode = delegateCode;
         this.mContext = mContext;
         this.templateCode = templateCode;
+        this.pos = pos;
+        this.title = title;
         Log.d("fetchDetailList",mContext.toString());
     }
 
@@ -116,6 +120,8 @@ public class fetchDetailList extends AsyncTask<String, Void, ArrayList<Content> 
         Intent intent1 = new Intent(mContext, DetailActivity.class);
         intent1.putExtra("templateCode",templateCode);
         intent1.putParcelableArrayListExtra("detailList",detailList );
+        intent1.putExtra("title",title);
+        intent1.putExtra("pos",pos);
         mContext.startActivity(intent1.addFlags(FLAG_ACTIVITY_NEW_TASK));
     }
 }

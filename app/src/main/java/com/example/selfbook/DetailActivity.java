@@ -36,7 +36,8 @@ public class DetailActivity extends AppCompatActivity {
     int templateCode;
     ArrayList<Content> detailList = new ArrayList<>();
     delegateListAdapter detailListAdapter;
-
+    int pos;
+    String title;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +46,13 @@ public class DetailActivity extends AppCompatActivity {
         rv_detail = findViewById(R.id.rv_detail);
         Intent intent = getIntent();
         templateCode = intent.getIntExtra("templateCode", -1);
+        title = intent.getStringExtra("title");
+        pos = intent.getIntExtra("pos", -1);
+        if(pos != -1) {
+            pos++;
+            title = title + " - " + pos + "";
+            getSupportActionBar().setTitle(title);
+        }
         detailList = intent.getParcelableArrayListExtra("detailList");
 
         detailListAdapter = new delegateListAdapter(this, detailList);

@@ -1,5 +1,7 @@
 package com.example.selfbook.getData;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -32,7 +34,7 @@ public class fetchChapterList extends AsyncTask<String, Void, templateTreeNode> 
     private RecyclerView rv_chapter;
 
     public templateTreeNode templateRoot;
-
+    //ProgressDialog progressDialog;
 //    private ArrayList<Content> chapterList = new ArrayList<>();
 
     public fetchChapterList(String userID, int templateCode, Context mContext, RecyclerView rv_chapter) {
@@ -42,6 +44,16 @@ public class fetchChapterList extends AsyncTask<String, Void, templateTreeNode> 
         this.rv_chapter = rv_chapter;
         Content template = new Content(templateCode, null, null, null, 0 );
         templateRoot = new templateTreeNode(template);
+    }
+
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+//        progressDialog = new ProgressDialog(mContext);
+//        progressDialog.setMessage("데이터를 가져오는 중...");
+//        progressDialog.setCancelable(true);
+//        progressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Horizontal);
+//        progressDialog.show();
     }
 
     @Override
@@ -99,7 +111,7 @@ public class fetchChapterList extends AsyncTask<String, Void, templateTreeNode> 
     @Override
     protected void onPostExecute(templateTreeNode templateNode) {
         super.onPostExecute(templateNode);
-
+        //progressDialog.dismiss();
         chapterListAdapter myChapterAdapter = new chapterListAdapter(mContext, templateNode);
         Log.d("chapAdater", "CALLED");
         myChapterAdapter.notifyDataSetChanged();
