@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.selfbook.BasicDraftInfoFragment;
 import com.example.selfbook.BookInfoActivity;
 import com.example.selfbook.Data.templateInfo;
@@ -63,6 +64,7 @@ public class bookCoverAdapter<T extends viewBook> extends RecyclerView.Adapter<b
                 templateItem = templateInfos.get(position);
                 Log.d("fetchGuideBookBind", String.valueOf(templateItem.getBookPrice()));
                 holder.bookDescription.setText(String.valueOf(templateItem.getBookPrice()) + "원");
+                Glide.with(mContext).load(Api.GET_IMAGEBASEURL+templateItem.getBookCover()).into(holder.bookImage);
 
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -87,7 +89,7 @@ public class bookCoverAdapter<T extends viewBook> extends RecyclerView.Adapter<b
                     return;
                 }
                 holder.bookDescription.setText(String.valueOf(userPurchaseItem.getUserTemplateCode()));
-
+                Glide.with(mContext).load(Api.GET_IMAGEBASEURL+userPurchaseItem.getUserBookCover()).into(holder.bookImage);
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

@@ -93,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
                 {
                     if(userInfoItem.getUserTemplateCode() == 0)
                     {
+                        emptyMyDraft.setText("구매한 원고가 없습니다!");
                         checkEmptyMyDraft = 1;
                     }else{
                         checkEmptyMyDraft = 0;

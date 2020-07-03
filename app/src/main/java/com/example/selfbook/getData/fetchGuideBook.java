@@ -8,6 +8,7 @@ import android.util.Log;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.selfbook.Data.templateInfo;
 import com.example.selfbook.recyclerView.bookCoverAdapter;
 import com.google.gson.Gson;
@@ -74,7 +75,7 @@ public class fetchGuideBook extends AsyncTask<String, Void, templateInfo[]> {
         for(templateInfo template : templateInfos)
         {
             templateInfoArrayList.add(template);
-            Log.d("fetchGuideBook", String.valueOf(template.getBookPrice()));
+            Log.d("fetchGuideBook",template.getBookCover());
         }
 
         guideBookAdapter = new bookCoverAdapter<templateInfo>(context, templateInfoArrayList);

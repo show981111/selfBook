@@ -16,7 +16,6 @@
             android:id="@+id/iv_gideBook"
             android:layout_width="80dp"
             android:layout_height="100dp"
-            android:src="@drawable/test_movie_1"
             />
 
         <TextView

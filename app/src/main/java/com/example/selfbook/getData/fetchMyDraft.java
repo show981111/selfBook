@@ -107,36 +107,33 @@ public class fetchMyDraft extends AsyncTask<String, Void, userInfo[]> {
                     userDataArrayList.add(item);
                 }
 
-                if(from.equals("main")) {
-                    if (userDataArrayList.size() > 0) {
+                if (userDataArrayList.size() > 0) {
 
-                        for (userInfo userInfoItem : userDataArrayList) {
-                            if (userInfoItem.getUserTemplateCode() == 0) {
-                                checkEmptyMyDraft = 1;
-                            } else {
-                                checkEmptyMyDraft = 0;
-                                break;
-                            }
+                    for (userInfo userInfoItem : userDataArrayList) {
+                        if (userInfoItem.getUserTemplateCode() == 0) {
+                            checkEmptyMyDraft = 1;
+                        } else {
+                            checkEmptyMyDraft = 0;
+                            break;
                         }
-
+                    }
+                    if (from.equals("main")) {
                         if (checkEmptyMyDraft == 1) {
                             rv_myDraft.setVisibility(View.GONE);
+                            emptyMyDraft.setText("구매한 원고가 없습니다!");
                         } else {
                             emptyMyDraft.setVisibility(View.GONE);
                             bookCoverAdapter<userInfo> myDraftAdapter = new bookCoverAdapter<userInfo>(mContext, userDataArrayList);
                             rv_myDraft.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
                             rv_myDraft.setAdapter(myDraftAdapter);
                         }
+                    }else if (from.equals("login")) {
+
+                        Intent intent = new Intent(mContext, MainActivity.class);
+                        intent.putParcelableArrayListExtra("userDataArrayList", userDataArrayList);
+                        mContext.startActivity(intent);
                     }
                 }
-                if(from.equals("login"))
-                {
-                    Log.d("fetchMyDraft",userDataArrayList.get(0).getUserBookName());
-                    Intent intent = new Intent(mContext, MainActivity.class);
-                    intent.putParcelableArrayListExtra("userDataArrayList",userDataArrayList);
-                    mContext.startActivity(intent);
-                }
-
             }else{
                 if(from.equals("login"))
                 {

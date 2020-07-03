@@ -13,9 +13,11 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.selfbook.Data.templateInfo;
 import com.example.selfbook.api.Api;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -49,6 +51,7 @@ public class BookInfoActivity extends AppCompatActivity {
         TextView tv_templateTitle = findViewById(R.id.tv_templateTitle);
         TextView tv_authorName = findViewById(R.id.tv_authorName);
         TextView tv_madeDate = findViewById(R.id.tv_madeDate);
+        ImageView iv_gideBook = findViewById(R.id.iv_gideBook);
 
 
         Fragment[] arrFragments = new Fragment[2];
@@ -63,11 +66,12 @@ public class BookInfoActivity extends AppCompatActivity {
 
         tl_bookIntro.setupWithViewPager(vp_pager_bookInfo);
 
-
+        getSupportActionBar().setTitle(templateInfoItem.getTemplateName());
         tv_bookPrice.setText(String.valueOf(templateInfoItem.getBookPrice()));
         tv_templateTitle.setText(templateInfoItem.getTemplateName());
         tv_authorName.setText(templateInfoItem.getAuthor());
         tv_madeDate.setText(templateInfoItem.getMadeDate());
+        Glide.with(this).load(Api.GET_IMAGEBASEURL+templateInfoItem.getBookCover()).into(iv_gideBook);
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_bookNavi);
         if(userName != null && !userName.equals("")){

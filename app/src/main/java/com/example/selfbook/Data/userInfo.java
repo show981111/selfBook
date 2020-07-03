@@ -11,13 +11,14 @@ public class userInfo implements Parcelable, viewBook {
     public int userTemplateCode;
     public String userBookName;
     public String userBookPublishDate;
-
-    public userInfo(String userID, String userName, int userTemplateCode, String userBookName, String userBookPublishDate) {
+    public String userBookCover;
+    public userInfo(String userID, String userName, int userTemplateCode, String userBookName, String userBookPublishDate, String userBookCover) {
         this.userID = userID;
         this.userName = userName;
         this.userTemplateCode = userTemplateCode;
         this.userBookName = userBookName;
         this.userBookPublishDate = userBookPublishDate;
+        this.userBookCover = userBookCover;
     }
 
 //    public String getStatus() {
@@ -42,6 +43,7 @@ public class userInfo implements Parcelable, viewBook {
         this.userTemplateCode = in.readInt();
         this.userBookName = in.readString();
         this.userBookPublishDate = in.readString();
+        this.userBookCover = in.readString();
     }
 
     public static final Creator<userInfo> CREATOR = new Creator<userInfo>() {
@@ -95,6 +97,13 @@ public class userInfo implements Parcelable, viewBook {
         this.userBookPublishDate = userBookPublishDate;
     }
 
+    public String getUserBookCover() {
+        return userBookCover;
+    }
+
+    public void setUserBookCover(String userBookCover) {
+        this.userBookCover = userBookCover;
+    }
 
     @Override
     public int describeContents() {
@@ -108,5 +117,6 @@ public class userInfo implements Parcelable, viewBook {
         dest.writeInt(this.userTemplateCode);
         dest.writeString(this.userBookName);
         dest.writeString(this.userBookPublishDate);
+        dest.writeString(this.userBookCover);
     }
 }

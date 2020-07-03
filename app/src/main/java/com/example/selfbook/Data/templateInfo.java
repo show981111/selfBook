@@ -10,15 +10,16 @@ public class templateInfo implements viewBook, Parcelable {
     private String author;
     private String templateName;
     private String madeDate;
-    //private String imageURL;
+    private String bookCover;
 
 
-    public templateInfo(int bookPrice, int templateCode, String author, String templateName, String madeDate) {
+    public templateInfo(int bookPrice, int templateCode, String author, String templateName, String madeDate, String bookCover) {
         this.bookPrice = bookPrice;
         this.templateCode = templateCode;
         this.author = author;
         this.templateName = templateName;
         this.madeDate =madeDate;
+        this.bookCover = bookCover;
     }
 
     protected templateInfo(Parcel in) {
@@ -27,6 +28,7 @@ public class templateInfo implements viewBook, Parcelable {
         author = in.readString();
         templateName = in.readString();
         madeDate = in.readString();
+        bookCover = in.readString();
     }
 
     public static final Creator<templateInfo> CREATOR = new Creator<templateInfo>() {
@@ -81,6 +83,14 @@ public class templateInfo implements viewBook, Parcelable {
         this.madeDate = madeDate;
     }
 
+    public String getBookCover() {
+        return bookCover;
+    }
+
+    public void setBookCover(String bookCover) {
+        this.bookCover = bookCover;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -93,5 +103,6 @@ public class templateInfo implements viewBook, Parcelable {
         dest.writeString(author);
         dest.writeString(templateName);
         dest.writeString(madeDate);
+        dest.writeString(bookCover);
     }
 }
