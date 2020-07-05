@@ -69,10 +69,7 @@ public class postUserAnswer extends AsyncTask<String, Void, String> {
                     .add("input", input)
                     .add("from", from)
                     .build();
-        Log.d("postUserAnswer", String.valueOf(key));
-        Log.d("postUserAnswer",input);
-        Log.d("postUserAnswer",userID);
-        Log.d("postUserAnswer",from);
+
         //Log.d("postUserAnswer", startTime);
 
         Request request = new Request.Builder()

@@ -4,6 +4,9 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,20 +30,18 @@ public class fetchGuideBook extends AsyncTask<String, Void, templateInfo[]> {
     private RecyclerView rv_guideBook;
 
     private ArrayList<templateInfo> templateInfoArrayList = new ArrayList<>();
-    ProgressDialog progressDialog;
-    public fetchGuideBook(Context context, RecyclerView rv_guideBook) {
+    private ProgressBar progressBar;
+    public fetchGuideBook(Context context, RecyclerView rv_guideBook, ProgressBar progressBar) {
         this.context = context;
         this.rv_guideBook = rv_guideBook;
+        this.progressBar = progressBar;
     }
 
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        progressDialog = new ProgressDialog(context);
-        progressDialog.setMessage("데이터를 가져오는 중...");
-        progressDialog.setCancelable(true);
-        progressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Horizontal);
-        progressDialog.show();
+        progressBar.setVisibility(View.VISIBLE);
+
     }
 
     @Override
@@ -70,7 +71,7 @@ public class fetchGuideBook extends AsyncTask<String, Void, templateInfo[]> {
     @Override
     protected void onPostExecute(templateInfo[] templateInfos) {
         super.onPostExecute(templateInfos);
-        progressDialog.dismiss();
+        progressBar.setVisibility(View.GONE);
         templateInfoArrayList.clear();
         for(templateInfo template : templateInfos)
         {

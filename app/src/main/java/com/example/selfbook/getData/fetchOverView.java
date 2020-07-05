@@ -1,5 +1,6 @@
 package com.example.selfbook.getData;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -7,7 +8,9 @@ import android.os.AsyncTask;
 import android.text.Html;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,12 +29,19 @@ public class fetchOverView extends AsyncTask<String, Void, String> {
     private String userID;
     private int templateCode;
     private TextView tv_overview;
-
-    public fetchOverView(Context context, String userID, int templateCode, TextView tv_overview) {
+    ProgressBar progressBar;
+    public fetchOverView(Context context, String userID, int templateCode, TextView tv_overview, ProgressBar progressBar) {
         this.context = context;
         this.userID = userID;
         this.templateCode = templateCode;
         this.tv_overview = tv_overview;
+        this.progressBar = progressBar;
+    }
+
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+        progressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -45,8 +55,6 @@ public class fetchOverView extends AsyncTask<String, Void, String> {
                     .add("templateCode", String.valueOf(templateCode))
                     .build();
 
-        Log.d("fetchOverView", userID);
-        Log.d("fetchOverView", String.valueOf(templateCode));
 
         Request request = new Request.Builder()
                 .url(url)
@@ -67,7 +75,10 @@ public class fetchOverView extends AsyncTask<String, Void, String> {
     @Override
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
-        Log.d("fetchOverView", s);
-        tv_overview.setText(Html.fromHtml(s));
+        progressBar.setVisibility(View.GONE);
+        if(s != null) {
+            Log.d("fetchOverView", s);
+            tv_overview.setText(Html.fromHtml(s));
+        }
     }
 }

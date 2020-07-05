@@ -64,7 +64,11 @@ public class bookCoverAdapter<T extends viewBook> extends RecyclerView.Adapter<b
                 templateItem = templateInfos.get(position);
                 Log.d("fetchGuideBookBind", String.valueOf(templateItem.getBookPrice()));
                 holder.bookDescription.setText(String.valueOf(templateItem.getBookPrice()) + "원");
-                Glide.with(mContext).load(Api.GET_IMAGEBASEURL+templateItem.getBookCover()).into(holder.bookImage);
+                //http://13.125.206.125/getImage.php
+                //Api.GET_IMAGEBASEURL+templateItem.getBookCover()
+                Glide.with(mContext).load(Api.GET_IMAGEBASEURL+templateItem.getBookCover())
+                                    .centerCrop()
+                                    .into(holder.bookImage);
 
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override

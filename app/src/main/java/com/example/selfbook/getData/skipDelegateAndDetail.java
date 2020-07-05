@@ -72,6 +72,7 @@ public class skipDelegateAndDetail extends AsyncTask<String, Void, String> {
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
         Log.d("skipDelegateAndDetail", s);
+        if(s == null) return;
         if(s.equals("success"))
         {
             if( delegateArray != null)

@@ -14,6 +14,8 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView rv_myDraft;
     TextView emptyMyDraft;
     int onCreateCalled = 0;
+    ProgressBar progressBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,8 +45,10 @@ public class MainActivity extends AppCompatActivity {
         //ActionBar bar = getActionBar();
         //getSupportActionBar().setTitle("나만의 자서전 만들기:)");
 
+        progressBar = (ProgressBar) findViewById(R.id.progressbar);
+        progressBar.setVisibility(View.GONE);
         RecyclerView rv_guideBook = findViewById(R.id.rv_guideBook);
-        fetchGuideBook fetchGuideBook = new fetchGuideBook(this,rv_guideBook);
+        fetchGuideBook fetchGuideBook = new fetchGuideBook(this,rv_guideBook,progressBar);
         fetchGuideBook.execute(Api.GET_TEMPLATEINFO);
         ArrayList<userInfo> userDataArrayList = new ArrayList<>();
         rv_myDraft = findViewById(R.id.rv_myDraft);
