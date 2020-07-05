@@ -44,7 +44,9 @@ public class fetchTemplateContent extends AsyncTask<String, Void, templateTreeNo
     protected templateTreeNode doInBackground(String... strings) {
         String url = strings[0];
 
-
+        if(TextUtils.isEmpty(userID) || templateCode == 0){
+            return null;
+        }
         OkHttpClient okHttpClient = new OkHttpClient();
 
         RequestBody formBody = new FormBody.Builder()
@@ -178,6 +180,7 @@ public class fetchTemplateContent extends AsyncTask<String, Void, templateTreeNo
     @Override
     protected void onPostExecute(templateTreeNode templateTreeNode) {
         super.onPostExecute(templateTreeNode);
+        if(templateTreeNode == null) return;
 //        ArrayList<Integer> chapters = new ArrayList<>();
 //        ArrayList<Integer> questions = new ArrayList<>();
 //        Log.d("fetchTemplate", templateTreeNode + "das");

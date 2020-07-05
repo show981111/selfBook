@@ -3,6 +3,7 @@ package com.example.selfbook.getData;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.AsyncTask;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.widget.EditText;
@@ -60,7 +61,9 @@ public class postUserAnswer extends AsyncTask<String, Void, String> {
     @Override
     protected String doInBackground(String... strings) {
         String url = strings[0];
-
+        if(TextUtils.isEmpty(userID) || key == 0){
+            return null;
+        }
         OkHttpClient client = new OkHttpClient();
 
         RequestBody formBody = new FormBody.Builder()
@@ -91,7 +94,10 @@ public class postUserAnswer extends AsyncTask<String, Void, String> {
     @Override
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
-        Log.d("postUserAnswer", s);
+
+        if(s == null){
+            return;
+        }
         if(s.equals("success"))
         {
 

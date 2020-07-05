@@ -31,9 +31,6 @@ import static android.content.Context.INPUT_METHOD_SERVICE;
 public class BasicDraftInfoFragment extends Fragment implements View.OnClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -63,7 +60,7 @@ public class BasicDraftInfoFragment extends Fragment implements View.OnClickList
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             this.userPurchaseInfo = getArguments().getParcelable("userPurchaseInfo");
-            Log.d("sibal",this.userPurchaseInfo.getUserBookName());
+            //Log.d("sibal",this.userPurchaseInfo.getUserBookName());
         }
     }
 

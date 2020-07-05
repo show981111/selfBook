@@ -71,6 +71,9 @@ public class fetchGuideBook extends AsyncTask<String, Void, templateInfo[]> {
     @Override
     protected void onPostExecute(templateInfo[] templateInfos) {
         super.onPostExecute(templateInfos);
+        if(templateInfos == null){
+            return;
+        }
         progressBar.setVisibility(View.GONE);
         templateInfoArrayList.clear();
         for(templateInfo template : templateInfos)

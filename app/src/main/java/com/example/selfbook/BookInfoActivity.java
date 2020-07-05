@@ -42,10 +42,10 @@ public class BookInfoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book_info);
 
-        Intent intent = getIntent();
-        templateInfoItem = intent.getParcelableExtra("templateInfo");
-        Log.d("BookInfoActivity", String.valueOf(templateInfoItem.getTemplateCode()));
-        Log.d("BookInfoActivity", userID+"USER");
+        if(getIntent() !=null) {
+            Intent intent = getIntent();
+            templateInfoItem = intent.getParcelableExtra("templateInfo");
+        }
 
         TextView tv_bookPrice = findViewById(R.id.tv_guideBookPrice);
         TextView tv_templateTitle = findViewById(R.id.tv_templateTitle);
@@ -55,7 +55,7 @@ public class BookInfoActivity extends AppCompatActivity {
 
 
         Fragment[] arrFragments = new Fragment[2];
-        arrFragments[0] = new TemplateIntroFragment();
+        arrFragments[0] = TemplateIntroFragment.newInstance(templateInfoItem.getTemplateIntro());
         arrFragments[1] = new PreviewFragment();
         //일단 책소개와 미리보기만 만듬 저자소개는 필요가 없을듯 하다 글지?
         TabLayout tl_bookIntro = findViewById(R.id.tl_bookIntro);
@@ -65,13 +65,16 @@ public class BookInfoActivity extends AppCompatActivity {
         vp_pager_bookInfo.setAdapter(viewPagerAdapter);
 
         tl_bookIntro.setupWithViewPager(vp_pager_bookInfo);
-
-        getSupportActionBar().setTitle(templateInfoItem.getTemplateName());
+        if(getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(templateInfoItem.getTemplateName());
+        }
         tv_bookPrice.setText(String.valueOf(templateInfoItem.getBookPrice()));
         tv_templateTitle.setText(templateInfoItem.getTemplateName());
         tv_authorName.setText(templateInfoItem.getAuthor());
         tv_madeDate.setText(templateInfoItem.getMadeDate());
-        Glide.with(this).load(Api.GET_IMAGEBASEURL+templateInfoItem.getBookCover()).into(iv_gideBook);
+        Glide.with(this).load(Api.GET_IMAGEBASEURL+templateInfoItem.getBookCover())
+                .centerCrop()
+                .into(iv_gideBook);
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_bookNavi);
         if(userName != null && !userName.equals("")){
@@ -169,7 +172,6 @@ public class BookInfoActivity extends AppCompatActivity {
                 return response.body().string();
             } catch (IOException e) {
                 e.printStackTrace();
-                Log.d("Register", e.getMessage());
                 return null;
             }
         }

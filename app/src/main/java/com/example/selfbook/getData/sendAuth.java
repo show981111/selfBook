@@ -3,6 +3,7 @@ package com.example.selfbook.getData;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.AsyncTask;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -44,7 +45,9 @@ public class sendAuth extends AsyncTask<String, Void, String> {
     @Override
     protected String doInBackground(String... strings) {
         String url = strings[0];
-
+        if(TextUtils.isEmpty(userID)){
+            return null;
+        }
         OkHttpClient client = new OkHttpClient();
 
         RequestBody formBody = new FormBody.Builder()
@@ -70,6 +73,7 @@ public class sendAuth extends AsyncTask<String, Void, String> {
     @Override
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
+        if(s == null) return;
         Log.d("sendAuth", s);
 
         if(s.length() > 7 && s.substring(0,7).equals("success"))

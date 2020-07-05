@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.text.Html;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -47,7 +48,9 @@ public class fetchOverView extends AsyncTask<String, Void, String> {
     @Override
     protected String doInBackground(String... strings) {
         String url = strings[0];
-
+        if(TextUtils.isEmpty(userID) || templateCode == 0){
+            return null;
+        }
         OkHttpClient client = new OkHttpClient();
 
         RequestBody formBody = new FormBody.Builder()
@@ -75,6 +78,9 @@ public class fetchOverView extends AsyncTask<String, Void, String> {
     @Override
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
+        if(s == null){
+            return;
+        }
         progressBar.setVisibility(View.GONE);
         if(s != null) {
             Log.d("fetchOverView", s);

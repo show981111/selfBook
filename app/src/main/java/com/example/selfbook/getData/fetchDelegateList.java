@@ -3,6 +3,7 @@ package com.example.selfbook.getData;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.example.selfbook.Data.Content;
@@ -49,7 +50,9 @@ public class fetchDelegateList extends AsyncTask<String, Void, ArrayList<Content
     @Override
     protected ArrayList<Content> doInBackground(String... strings) {
         String url = strings[0];
-
+        if(TextUtils.isEmpty(userID) || chapterCode == 0){
+            return null;
+        }
 
         OkHttpClient okHttpClient = new OkHttpClient();
 
@@ -106,6 +109,10 @@ public class fetchDelegateList extends AsyncTask<String, Void, ArrayList<Content
     @Override
     protected void onPostExecute(ArrayList<Content> delegateArrayList) {
         super.onPostExecute(delegateArrayList);
+
+        if(delegateArrayList == null){
+            return;
+        }
         Intent intent = new Intent(mContext, DelegateActivity.class);
         intent.putExtra("templateCode",templateCode);
         intent.putExtra("chapterNum",chapterNum);

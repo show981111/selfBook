@@ -3,6 +3,7 @@ package com.example.selfbook.getData;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.AsyncTask;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.widget.EditText;
@@ -41,7 +42,9 @@ public class skipDelegateAndDetail extends AsyncTask<String, Void, String> {
     @Override
     protected String doInBackground(String... strings) {
         String url = strings[0];
-
+        if(TextUtils.isEmpty(userID) || key == 0){
+            return null;
+        }
         OkHttpClient client = new OkHttpClient();
 
         RequestBody formBody = new FormBody.Builder()
@@ -71,8 +74,8 @@ public class skipDelegateAndDetail extends AsyncTask<String, Void, String> {
     @Override
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
-        Log.d("skipDelegateAndDetail", s);
         if(s == null) return;
+        Log.d("skipDelegateAndDetail", s);
         if(s.equals("success"))
         {
             if( delegateArray != null)

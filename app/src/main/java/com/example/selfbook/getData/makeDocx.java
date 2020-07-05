@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
+import android.text.TextUtils;
 import android.util.Log;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -44,7 +45,9 @@ public class makeDocx extends AsyncTask<String, Void, String> {
     @Override
     protected String doInBackground(String... strings) {
         String url = strings[0];
-
+        if(TextUtils.isEmpty(userID) || templateCode == 0){
+            return null;
+        }
         OkHttpClient client = new OkHttpClient();
 
         RequestBody formBody = new FormBody.Builder()

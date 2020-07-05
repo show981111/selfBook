@@ -93,7 +93,9 @@ public class bookCoverAdapter<T extends viewBook> extends RecyclerView.Adapter<b
                     return;
                 }
                 holder.bookDescription.setText(String.valueOf(userPurchaseItem.getUserTemplateCode()));
-                Glide.with(mContext).load(Api.GET_IMAGEBASEURL+userPurchaseItem.getUserBookCover()).into(holder.bookImage);
+                Glide.with(mContext).load(Api.GET_IMAGEBASEURL+userPurchaseItem.getUserBookCover())
+                        .centerCrop()
+                        .into(holder.bookImage);
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

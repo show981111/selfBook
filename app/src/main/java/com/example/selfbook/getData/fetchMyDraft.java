@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -61,7 +62,9 @@ public class fetchMyDraft extends AsyncTask<String, Void, userInfo[]> {
         protected userInfo[] doInBackground(String... strings) {
             String url = strings[0];
 
-
+            if(TextUtils.isEmpty(inputID) || TextUtils.isEmpty(inputPW)){
+                return null;
+            }
             OkHttpClient okHttpClient = new OkHttpClient();
 
             RequestBody formBody;
@@ -101,6 +104,9 @@ public class fetchMyDraft extends AsyncTask<String, Void, userInfo[]> {
         @Override
         protected void onPostExecute(userInfo[] client) {
             super.onPostExecute(client);
+            if(client == null){
+                return;
+            }
             int checkEmptyMyDraft = 0;
             if(client != null && client.length > 0) {
                 for (userInfo item : client) {

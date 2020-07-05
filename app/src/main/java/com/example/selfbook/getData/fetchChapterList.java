@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.text.TextUtils;
 import android.util.Log;
 
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -49,18 +50,16 @@ public class fetchChapterList extends AsyncTask<String, Void, templateTreeNode> 
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-//        progressDialog = new ProgressDialog(mContext);
-//        progressDialog.setMessage("데이터를 가져오는 중...");
-//        progressDialog.setCancelable(true);
-//        progressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Horizontal);
-//        progressDialog.show();
+
     }
 
     @Override
     protected templateTreeNode doInBackground(String... strings) {
         String url = strings[0];
 
-
+        if(TextUtils.isEmpty(userID) || templateCode == 0){
+            return null;
+        }
         OkHttpClient okHttpClient = new OkHttpClient();
 
         RequestBody formBody = new FormBody.Builder()
@@ -112,6 +111,7 @@ public class fetchChapterList extends AsyncTask<String, Void, templateTreeNode> 
     protected void onPostExecute(templateTreeNode templateNode) {
         super.onPostExecute(templateNode);
         //progressDialog.dismiss();
+        if(templateNode == null) return;
         chapterListAdapter myChapterAdapter = new chapterListAdapter(mContext, templateNode);
         Log.d("chapAdater", "CALLED");
         myChapterAdapter.notifyDataSetChanged();

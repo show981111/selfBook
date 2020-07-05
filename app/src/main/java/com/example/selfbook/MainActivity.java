@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
             {
                 userID = userDataArrayList.get(0).getUserID();
                 userName = userDataArrayList.get(0).getUserName();
-                Log.d("Main",userID);
+                //Log.d("Main",userID);
                 int checkEmptyMyDraft = 0;
                 for(userInfo userInfoItem : userDataArrayList)
                 {
@@ -143,7 +143,7 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 emptyMyDraft.setText("로그인을 해주세요!");
             }
-            Log.d("fetchMyDraft", "recalled");
+            //Log.d("fetchMyDraft", "recalled");
         }
     }
 }

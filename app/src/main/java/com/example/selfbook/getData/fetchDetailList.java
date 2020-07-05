@@ -3,6 +3,7 @@ package com.example.selfbook.getData;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.text.TextUtils;
 import android.util.Log;
 
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -57,7 +58,9 @@ public class fetchDetailList extends AsyncTask<String, Void, ArrayList<Content> 
     @Override
     protected ArrayList<Content> doInBackground(String... strings) {
         String url = strings[0];
-
+        if(TextUtils.isEmpty(userID) || delegateCode == 0){
+            return null;
+        }
 
         OkHttpClient okHttpClient = new OkHttpClient();
 
@@ -85,22 +88,23 @@ public class fetchDetailList extends AsyncTask<String, Void, ArrayList<Content> 
 
         String jsonData = null;
         try {
+
             jsonData = responses.body().string();
             JSONArray detailArray = new JSONArray(jsonData);
 
-            for(int i = 0; i < detailArray.length(); i++)
-            {
+            for (int i = 0; i < detailArray.length(); i++) {
                 JSONObject detailObject = detailArray.getJSONObject(i);
                 int detailCode = detailObject.getInt("detailCode");
-                String detailName =detailObject.getString("detailName");
-                String detailHint =detailObject.getString("detailHint");
-                String detailAnswer =detailObject.getString("detailAnswer");
+                String detailName = detailObject.getString("detailName");
+                String detailHint = detailObject.getString("detailHint");
+                String detailAnswer = detailObject.getString("detailAnswer");
                 int status = detailObject.getInt("status");
-                Content content = new Content(detailCode, detailName,detailHint, detailAnswer ,status);
+                Content content = new Content(detailCode, detailName, detailHint, detailAnswer, status);
 //                templateTreeNode detailNode = new templateTreeNode(content);
                 detailList.add(content);
 
             }
+
             return detailList;
         } catch (IOException | JSONException e) {
             e.printStackTrace();
@@ -111,7 +115,9 @@ public class fetchDetailList extends AsyncTask<String, Void, ArrayList<Content> 
     @Override
     protected void onPostExecute(ArrayList<Content> detailList) {
         super.onPostExecute(detailList);
-
+        if(detailList == null){
+            return;
+        }
 //        delegateListAdapter myDetailAdapter = new delegateListAdapter(mContext, detailList);
 //        Log.d("chapAdater", "CALLED");
 //        myDetailAdapter.notifyDataSetChanged();
