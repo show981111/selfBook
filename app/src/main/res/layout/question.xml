@@ -35,7 +35,7 @@
 <!--            android:layout_height="wrap_content"-->
 <!--            >-->
 
-        <com.google.android.material.textfield.TextInputEditText
+        <EditText
             android:id="@+id/et_typeAnswer"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
