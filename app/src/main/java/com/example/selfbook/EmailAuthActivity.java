@@ -158,7 +158,8 @@ public class EmailAuthActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            Log.d("sendAuth", s);
+
+            if(s == null) return;
             if(s.equals("success"))
             {
                 AlertDialog.Builder builder = new AlertDialog.Builder(EmailAuthActivity.this);

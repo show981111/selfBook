@@ -78,6 +78,7 @@ public class BasicDraftInfoFragment extends Fragment implements View.OnClickList
         //tv_publishDate
         //tv_pageNumber
         //tv_selfBookUserName
+        if(getView() == null) return;
         final EditText et_selfBookTitle = getView().findViewById(R.id.et_selfBookTitle);
         TextView tv_publishDate = getView().findViewById(R.id.tv_publishDate);
         TextView tv_pageNumber = getView().findViewById(R.id.tv_pageNumber);
@@ -93,9 +94,16 @@ public class BasicDraftInfoFragment extends Fragment implements View.OnClickList
         bt_uploadTitle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 try {
-                    InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
+                    if(getActivity() != null ) {
+                        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(INPUT_METHOD_SERVICE);
+                        if(imm != null) {
+                            if(getActivity().getCurrentFocus() != null) {
+                                imm.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
+                            }
+                        }
+                    }
                 } catch (Exception e) {
                     // TODO: handle exception
                 }

@@ -95,7 +95,7 @@ public class DetailActivity extends AppCompatActivity {
                         if(rv_detail.findViewHolderForAdapterPosition(pos) != null) {
                             Log.d("skip", "clickled");
                             View itemView = rv_detail.findViewHolderForAdapterPosition(pos).itemView;
-                            EditText et_typeAnswer = itemView.findViewById(R.id.et_typeAnswer);
+                            //EditText et_typeAnswer = itemView.findViewById(R.id.et_typeAnswer);
                             //Context context, int key, String input, String userID, ArrayList<Content> detailList,
                             //                          String from, delegateListAdapter delegateListAdapter, int pos)
                             postUserAnswer postUserAnswer = new postUserAnswer(getApplicationContext(), detailList.get(pos).getID(),"skipped",userID,detailList,"detail",

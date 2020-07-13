@@ -52,7 +52,9 @@ public class DelegateActivity extends AppCompatActivity {
 
         if(chapterNum != -1 && !TextUtils.isEmpty(chapterName)){
             title = chapterNum + ". " + chapterName;
-            getSupportActionBar().setTitle(title);
+            if(getSupportActionBar() != null) {
+                getSupportActionBar().setTitle(title);
+            }
         }
         //getSupportActionBar().setTitle(chapnum + ". " + chapterList.get(position).getData().getName());
 

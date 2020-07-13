@@ -100,8 +100,14 @@ public class makeDocx extends AsyncTask<String, Void, String> {
                         .setNegativeButton("취소", null)
                         .create()
                         .show();
-            }else{
+            }else if(s.equals("fail")){
                 Toast.makeText(context,"실패하였습니다. 다시 시도해주세요!",Toast.LENGTH_LONG).show();
+            }else{
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setMessage("답변을 다 채워주세요! \n" + s)
+                        .setPositiveButton("확인", null)
+                        .create()
+                        .show();
             }
         }
     }

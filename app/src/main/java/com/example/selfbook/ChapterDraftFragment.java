@@ -55,7 +55,7 @@ public class ChapterDraftFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             this.userPurchaseInfo = getArguments().getParcelable("userPurchaseInfo");
-            Log.d("sibal",this.userPurchaseInfo.getUserBookName());
+            //Log.d("sibal",this.userPurchaseInfo.getUserBookName());
         }
     }
 
@@ -84,8 +84,12 @@ public class ChapterDraftFragment extends Fragment {
         if(rv_chapterList != null) {
             if(rv_chapterList.getAdapter() != null) {
                 rv_chapterList.getAdapter().notifyDataSetChanged();
-                FragmentTransaction ft = getFragmentManager().beginTransaction();
-                ft.detach(this).attach(this).commit();
+
+                FragmentTransaction ft = null;
+                if (getFragmentManager() != null) {
+                    ft = getFragmentManager().beginTransaction();
+                    ft.detach(this).attach(this).commit();
+                }
             }
         }
 

@@ -2,7 +2,7 @@ package com.example.selfbook.api;
 
 public class Api {
 
-    public static final String BASE_URL = "http://13.125.206.125";
+    public static final String BASE_URL = "http://13.125.245.251";
     public static final String GET_TEMPLATEINFO = BASE_URL + "/getTemplateInfo.php";
     public static final String POST_REGISTER = BASE_URL + "/registerUser.php";
     public static final String GET_USERINFO = BASE_URL + "/getUserInfo.php";
