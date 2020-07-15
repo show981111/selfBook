@@ -62,13 +62,15 @@ public class fetchMyDraft extends AsyncTask<String, Void, userInfo[]> {
         protected userInfo[] doInBackground(String... strings) {
             String url = strings[0];
 
-            if(TextUtils.isEmpty(inputID) || TextUtils.isEmpty(inputPW)){
+            if(TextUtils.isEmpty(inputID)){
                 return null;
             }
             OkHttpClient okHttpClient = new OkHttpClient();
 
             RequestBody formBody;
             if(from.equals("login")) {
+                if(TextUtils.isEmpty(inputPW)) return null;
+
                 Log.d("login","login");
                 formBody = new FormBody.Builder()
                         .add("userID", inputID)
@@ -88,7 +90,6 @@ public class fetchMyDraft extends AsyncTask<String, Void, userInfo[]> {
 
             try {
                 Response response = okHttpClient.newCall(request).execute();
-                Log.d("loginTask", "res");
                 Gson gson = new Gson();
                 userInfo[] userInfos = gson.fromJson(response.body().charStream(), userInfo[].class);
 
@@ -96,7 +97,7 @@ public class fetchMyDraft extends AsyncTask<String, Void, userInfo[]> {
 
             } catch (IOException e) {
                 e.printStackTrace();
-                Log.d("loginTask", e.getMessage());
+                Log.d("fetchMyDraft", e.getMessage());
                 return null;
             }
         }
@@ -108,7 +109,7 @@ public class fetchMyDraft extends AsyncTask<String, Void, userInfo[]> {
                 return;
             }
             int checkEmptyMyDraft = 0;
-            if(client != null && client.length > 0) {
+            if(client.length > 0) {
                 for (userInfo item : client) {
                     userDataArrayList.add(item);
                 }
@@ -117,6 +118,7 @@ public class fetchMyDraft extends AsyncTask<String, Void, userInfo[]> {
 
                     for (userInfo userInfoItem : userDataArrayList) {
                         if (userInfoItem.getUserTemplateCode() == 0) {
+                            Log.d("fetchMyDraft", "empty" +  String.valueOf(userInfoItem.getUserTemplateCode()));
                             checkEmptyMyDraft = 1;
                         } else {
                             checkEmptyMyDraft = 0;
@@ -125,9 +127,12 @@ public class fetchMyDraft extends AsyncTask<String, Void, userInfo[]> {
                     }
                     if (from.equals("main")) {
                         if (checkEmptyMyDraft == 1) {
+                            Log.d("fetchMyDraft", "empty" +  String.valueOf(checkEmptyMyDraft));
                             rv_myDraft.setVisibility(View.GONE);
+                            emptyMyDraft.setVisibility(View.VISIBLE);
                             emptyMyDraft.setText("구매한 원고가 없습니다!");
                         } else {
+                            rv_myDraft.setVisibility(View.VISIBLE);
                             emptyMyDraft.setVisibility(View.GONE);
                             bookCoverAdapter<userInfo> myDraftAdapter = new bookCoverAdapter<userInfo>(mContext, userDataArrayList);
                             rv_myDraft.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));

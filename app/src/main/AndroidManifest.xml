@@ -13,13 +13,19 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".DetailActivity"></activity>
-        <activity android:name=".EmailAuthActivity" />
+
+        <activity android:name=".DetailActivity"
+            android:windowSoftInputMode="adjustPan"></activity>
+        <activity android:name=".EmailAuthActivity"
+            android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".OverViewActivity" />
-        <activity android:name=".DelegateActivity" />
-        <activity android:name=".MyDraftActivity" />
+        <activity android:name=".DelegateActivity"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".MyDraftActivity"
+            android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".BookInfoActivity" />
-        <activity android:name=".RegisterActivity" />
+        <activity android:name=".RegisterActivity"
+            android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".LoginActivity" />
 
         <activity android:name=".MainActivity">

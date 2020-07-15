@@ -1,11 +1,13 @@
 package com.example.selfbook;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ActionBar;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -58,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
         onCreateCalled = 1;
         //Log.d("fetchMyDraftOn",String.valueOf(onCreateCalled));
         if (userID != null && !TextUtils.isEmpty(userID) && userName != null && !TextUtils.isEmpty(userName)) {
-            //Log.d("fetchMyDraft", "Oncalled");
+            Log.d("fetchMyDraft", "Oncalled");
             bottomNavigationView.getMenu().findItem(R.id.login).setTitle(userName);
             fetchMyDraft fetchMyDraft = new fetchMyDraft(userID, rv_myDraft, emptyMyDraft, this);
             fetchMyDraft.execute(Api.GET_USERINFO);
@@ -77,6 +79,22 @@ public class MainActivity extends AppCompatActivity {
                         if(userID == null || userID.equals("")) {
                             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                             MainActivity.this.startActivity(intent);
+                            break;
+                        }else{
+                            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                            builder.setMessage("로그아웃 하시겠습니까?")
+                                    .setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            userID = "";
+                                            userName = "";
+                                            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                                            MainActivity.this.startActivity(intent);
+                                        }
+                                    })
+                                    .setNegativeButton("취소", null)
+                                    .create()
+                                    .show();
                             break;
                         }
                 }
@@ -116,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
                     rv_myDraft.setAdapter(myDraftAdapter);
                 }
 
-                bottomNavigationView.getMenu().findItem(R.id.login).setTitle(userDataArrayList.get(0).getUserName());
+                bottomNavigationView.getMenu().findItem(R.id.login).setTitle("로그아웃");
             }else{
                 Toast.makeText(MainActivity.this,"다시한번 시도해주세요!",Toast.LENGTH_LONG).show();
             }
@@ -128,13 +146,13 @@ public class MainActivity extends AppCompatActivity {
         super.onPause();
         onCreateCalled = 0;
 //        Log.d("fetchMyDraftPause",String.valueOf(onCreateCalled));
-//        Log.d("fetchMyDraft", "pause");
+        Log.d("fetchMyDraft", "pause");
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        //Log.d("fetchMyDraftResume",String.valueOf(onCreateCalled));
+        Log.d("fetchMyDraftResume",String.valueOf(onCreateCalled));
         if(rv_myDraft != null && emptyMyDraft != null && onCreateCalled == 0) {
             if (userID != null && !TextUtils.isEmpty(userID) && userName != null && !TextUtils.isEmpty(userName)) {
                 bottomNavigationView.getMenu().findItem(R.id.login).setTitle(userName);
@@ -143,7 +161,7 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 emptyMyDraft.setText("로그인을 해주세요!");
             }
-            //Log.d("fetchMyDraft", "recalled");
+            Log.d("fetchMyDraft", "recalled");
         }
     }
 }

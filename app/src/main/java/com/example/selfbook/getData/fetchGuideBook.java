@@ -18,6 +18,7 @@ import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -49,6 +50,7 @@ public class fetchGuideBook extends AsyncTask<String, Void, templateInfo[]> {
         String url= strings[0];
 
         OkHttpClient client = new OkHttpClient();
+
         Log.d("fetchGuideBook", "hello");
         Request request = new Request.Builder()
                 .url(url)
