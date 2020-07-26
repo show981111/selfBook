@@ -81,7 +81,7 @@ public class BasicDraftInfoFragment extends Fragment implements View.OnClickList
         if(getView() == null) return;
         final EditText et_selfBookTitle = getView().findViewById(R.id.et_selfBookTitle);
         TextView tv_publishDate = getView().findViewById(R.id.tv_publishDate);
-        TextView tv_pageNumber = getView().findViewById(R.id.tv_pageNumber);
+        //TextView tv_pageNumber = getView().findViewById(R.id.tv_pageNumber);
         TextView tv_selfBookUserName = getView().findViewById(R.id.tv_selfBookUserName);
         ImageButton bt_uploadTitle = getView().findViewById(R.id.bt_uploadTitle);
 
